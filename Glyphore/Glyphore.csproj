@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>Glyphore</AssemblyName>
+    <RootNamespace>Glyphore</RootNamespace>
+    <Product>Glyphoré</Product>
+    <Title>Glyphoré</Title>
+    <Description>GPU-accelerated procedural character art studio for Linux.</Description>
+    <Version>6.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.10" />
+    <!-- Explicit SkiaSharp for glyph atlas (also pulled transitively by Avalonia) -->
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+    <PackageReference Include="Figgle" Version="0.6.6" />
+    <PackageReference Include="Figgle.Fonts" Version="0.6.6" />
+  </ItemGroup>
+  <!-- Retained WinForms sources: keep on disk, exclude from Avalonia build -->
+  <ItemGroup>
+    <Compile Remove="**\*.WinForms.cs" />
+    <Compile Remove="GlPreviewControl.OpenGl.cs" />
+    <Compile Remove="GlPreviewControl.Masks.cs" />
+    <Compile Remove="GlPreviewControl.Input.cs" />
+    <Compile Remove="GlPreviewControl.Capture.cs" />
+    <Compile Remove="GlPreviewControl.Benchmark.cs" />
+    <Compile Remove="GlPreviewControl.GlyphResources.cs" />
+    <Compile Remove="GlPreviewControl.Uniforms.cs" />
+    <Compile Remove="GlPreviewControl.Scheduler.cs" />
+    <Compile Remove="GlPreviewControl.Rendering.cs" />
+    <Compile Remove="GlPreviewControl.RasterCapture.cs" />
+    <Compile Remove="GlPreviewControl.Title.cs" />
+    <Compile Remove="MainForm*.cs" />
+    <Compile Remove="AboutForm.cs" />
+    <Compile Remove="ExportProgressWindow.cs" />
+    <Compile Remove="FullLicenseForm.cs" />
+    <Compile Remove="ThirdPartyLicensesForm.cs" />
+    <Compile Remove="LicenseTextViewer.cs" />
+    <Compile Remove="Controls\**\*.cs" />
+    <Compile Remove="*SmokeTest.cs" />
+    <Compile Remove="DetachedWindowManager.cs" />
+    <Compile Remove="GlyphoreActivityMessageFilter.cs" />
+    <Compile Remove="RasterAnimationExporter.cs" />
+    <Compile Remove="Discord*.cs" />
+    <Compile Remove="Theme.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets/Glyphore-Icon-1024.png" />
+    <EmbeddedResource Include="Data/*.json" />
+    <EmbeddedResource Include="Shaders/*.glsl" />
+  </ItemGroup>
+  <!-- Retained WinForms sources stay in the project tree as Content for inventory completeness -->
+  <ItemGroup>
+    <None Include="**\*.WinForms.cs" />
+    <None Include="MainForm*.cs" />
+    <None Include="Controls\**\*.cs" />
+    <None Include="AboutForm.cs" />
+    <None Include="*SmokeTest.cs" />
+    <None Include="Theme.cs" />
+    <None Include="DetachedWindowManager.cs" />
+    <None Include="Discord*.cs" />
+    <None Include="app.manifest" />
+  </ItemGroup>
+</Project>

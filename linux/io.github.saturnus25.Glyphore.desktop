@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Glyphoré
+Comment=GPU-accelerated procedural character art studio
+Exec=Glyphore
+Icon=io.github.saturnus25.Glyphore
+Categories=Graphics;Utility;
+Terminal=false
