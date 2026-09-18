@@ -1,0 +1,18 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Drawing;
+global using System.IO;
+global using System.Linq;
+global using System.Windows.Forms;
+global using Button = Glyphore.CompatButton;
+global using CheckBox = Glyphore.CompatCheckBox;
+global using ComboBox = Glyphore.CompatComboBox;
+global using TextBox = Glyphore.CompatTextBox;
+global using RichTextBox = Glyphore.CompatRichTextBox;
+global using Label = Glyphore.CompatLabel;
+global using FlowLayoutPanel = Glyphore.CompatFlowLayoutPanel;
+global using TableLayoutPanel = Glyphore.CompatTableLayoutPanel;
+global using SplitContainer = Glyphore.CompatSplitContainer;
+global using ListBox = Glyphore.CompatListBox;
+global using Form = Glyphore.CompatForm;
+global using ContextMenuStrip = Glyphore.CompatContextMenuStrip;

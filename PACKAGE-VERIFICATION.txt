@@ -1,0 +1,19 @@
+Glyphoré Linux 6.0.1 parity package verification
+
+UI backend: GTKSystem.Windows.Forms + GtkSharp 3.24.24.95
+OpenGL surface: Gtk.GLArea, requested OpenGL 3.3
+legacy XAML UI references in active project/source: 0
+Windows WGL/user32/gdi32/opengl32 references in active project/source: 0
+ASCII Title Studio entry point: present
+ASCII Title Studio source implementation: included
+OpenGL preview text overlay: removed
+Shared Windows icon resources: embedded + Linux GTK PNG bridge
+Nested source archives: 0
+Embedded license resources configured: True
+.NET compiler/build validation in this environment: unavailable
+Live Linux GPU runtime validation in this environment: unavailable
+
+Build-error remediation:
+- Replaced unsupported GTKSystem.Windows.Forms protected WinForms overrides with supported control/form events.
+- Qualified GTK/GDK event argument and System.Drawing Point/Color types.
+- Added explicit #nullable enable to generated export source.
