@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("GPU-accelerated procedural character art studio for Linux.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("6.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("6.0.1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("6.0.1+0790f9bc1f7dbc74518a28730d459e913e8f366d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Glyphoré")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Glyphore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("6.0.1.0")]
