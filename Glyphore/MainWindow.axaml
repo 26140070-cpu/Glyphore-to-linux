@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Glyphore" x:Class="Glyphore.MainWindow" Width="1280" Height="800" MinWidth="900" MinHeight="600" Title="Glyphoré 6.0.0">
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="300,*" Margin="12" ColumnSpacing="12" RowSpacing="10">
+    <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="8">
+      <Button Click="NewScene">Nueva escena</Button>
+      <Button Click="OpenScene">Abrir .glyphore</Button>
+      <Button Click="SaveScene">Guardar escena</Button>
+      <Button Click="ExportText">Exportar</Button>
+      <Button Click="CopyText">Copiar</Button>
+      <TextBlock VerticalAlignment="Center" Text="Preview OpenGL nativo" Opacity="0.7" />
+    </StackPanel>
+    <ScrollViewer Grid.Row="1">
+      <StackPanel Spacing="8">
+        <TextBlock Text="Escena" FontWeight="Bold" />
+        <TextBox Name="SceneNameBox" Watermark="Nombre" TextChanged="SceneChanged" />
+        <TextBlock Text="Efecto" />
+        <ComboBox Name="EffectBox" SelectionChanged="SceneChanged" />
+        <TextBlock Text="Preset" />
+        <ComboBox Name="PresetBox" SelectionChanged="PresetChanged" />
+        <Expander Header="Título ASCII">
+          <StackPanel Spacing="5">
+            <TextBox Name="TitleTextBox" TextChanged="TitleChanged" />
+            <ComboBox Name="TitleFontBox" SelectionChanged="TitleChanged" />
+          </StackPanel>
+        </Expander>
+        <TextBlock Text="Charset" />
+        <ComboBox Name="CharsetBox" SelectionChanged="SceneChanged" />
+        <TextBlock Text="Paleta" />
+        <ComboBox Name="PaletteBox" SelectionChanged="SceneChanged" />
+        <TextBlock Text="Ancho" />
+        <NumericUpDown Name="WidthBox" Minimum="8" Maximum="400" ValueChanged="SceneChanged" />
+        <TextBlock Text="Alto" />
+        <NumericUpDown Name="HeightBox" Minimum="4" Maximum="200" ValueChanged="SceneChanged" />
+        <CheckBox Name="ColorBox" Content="Color ANSI" IsChecked="True" Checked="SceneChanged" Unchecked="SceneChanged" />
+        <TextBlock Text="Capas" FontWeight="Bold" Margin="0,10,0,0" />
+        <ListBox Name="LayersBox" Height="120" SelectionChanged="LayerSelected" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Click="AddLayer">Añadir</Button>
+          <Button Click="RemoveLayer">Quitar</Button>
+        </StackPanel>
+        <TextBlock Text="Capa activa" FontWeight="Bold" Margin="0,10,0,0" />
+        <NumericUpDown Name="OpacityBox" Minimum="0" Maximum="1" Increment="0.05" ValueChanged="LayerChanged" />
+        <NumericUpDown Name="SeedBox" Minimum="0" Maximum="999999" ValueChanged="LayerChanged" />
+        <ComboBox Name="BlendBox" SelectionChanged="LayerChanged" />
+        <CheckBox Name="VisibleBox" Content="Visible" Checked="LayerChanged" Unchecked="LayerChanged" />
+        <TextBlock Text="Máscaras" FontWeight="Bold" Margin="0,10,0,0" />
+        <ListBox Name="MasksBox" Height="90" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Click="AddMask">Añadir máscara</Button>
+          <Button Click="RemoveMask">Quitar</Button>
+        </StackPanel>
+        <Expander Header="Transformación global">
+          <StackPanel Spacing="5">
+            <NumericUpDown Name="RotationBox" Minimum="-180" Maximum="180" ValueChanged="TransformChanged" />
+            <NumericUpDown Name="ScaleBox" Minimum="0.1" Maximum="4" Increment="0.1" ValueChanged="TransformChanged" />
+          </StackPanel>
+        </Expander>
+        <Expander Header="Postproceso">
+          <StackPanel Spacing="5">
+            <CheckBox Name="PostEnabledBox" Content="Activado" Checked="PostChanged" Unchecked="PostChanged" />
+            <NumericUpDown Name="ExposureBox" Minimum="-1" Maximum="1" Increment="0.05" ValueChanged="PostChanged" />
+            <NumericUpDown Name="ContrastBox" Minimum="0" Maximum="3" Increment="0.05" ValueChanged="PostChanged" />
+            <NumericUpDown Name="VignetteBox" Minimum="0" Maximum="1" Increment="0.05" ValueChanged="PostChanged" />
+            <NumericUpDown Name="ScanlinesBox" Minimum="0" Maximum="1" Increment="0.05" ValueChanged="PostChanged" />
+          </StackPanel>
+        </Expander>
+      </StackPanel>
+    </ScrollViewer>
+    <Border Grid.Row="1" Grid.Column="1" Background="#101018" CornerRadius="6" Padding="8">
+      <Grid>
+        <local:GlPreviewControl Name="Preview" />
+        <ScrollViewer Margin="16" IsHitTestVisible="False">
+          <TextBlock Name="TextPreview" FontFamily="Cascadia Mono,Consolas,monospace" FontSize="12" Foreground="#FFF2D7" TextWrapping="NoWrap" />
+        </ScrollViewer>
+      </Grid>
+    </Border>
+    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Name="StatusText" Text="Listo" Opacity="0.75" />
+  </Grid>
+</Window>
