@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>Glyphore</AssemblyName>
+    <RootNamespace>Glyphore</RootNamespace>
+    <Product>Glyphoré</Product>
+    <Title>Glyphoré</Title>
+    <Description>Cross-platform procedural character art studio for Linux.</Description>
+    <Version>6.0.1</Version>
+    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <FileVersion>6.0.1.0</FileVersion>
+    <InformationalVersion>6.0.1</InformationalVersion>
+    <Platforms>AnyCPU</Platforms>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.GenAI" Version="1.21.1" />
+    <PackageReference Include="Majorsilence.Forms" Version="26.0.30" />
+    <PackageReference Include="Majorsilence.Forms.Avalonia" Version="26.0.30" />
+    <PackageReference Include="Majorsilence.Forms.Drawing.Common" Version="26.0.30" />
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
+    <PackageReference Include="Figgle" Version="0.6.6" />
+    <PackageReference Include="Figgle.Fonts" Version="0.6.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="**\*.WinForms.cs" />
+    <Compile Remove="NativeGl.WinForms.cs" />
+    <Compile Remove="Program.WinForms.cs" />
+    <Compile Remove="GlPreviewControl.OpenGl.cs" />
+    <Compile Remove="GlPreviewControl.Scheduler.cs" />
+    <Compile Remove="GlPreviewControl.Input.cs" />
+    <Compile Remove="*SmokeTest.cs" />
+    <Compile Remove="GlyphoreActivityMessageFilter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets/Glyphore.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets/Glyphore-Icon-1024.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets/Glyphore.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets/Glyphore-Logo.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="glyphore.desktop" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Data/*.json" />
+    <EmbeddedResource Include="Licenses/*.txt">
+      <LogicalName>Glyphore.Licenses.%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets/Glyphore.ico">
+      <LogicalName>Glyphore.AppIcon.ico</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets/Glyphore-Icon-1024.png">
+      <LogicalName>Glyphore.BrandIcon.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,141 @@
+using System.Diagnostics;
+
+namespace Glyphore;
+
+internal sealed partial class MainForm : GlyphoreWindow
+{
+    private readonly AppData _data = AppData.Load();
+    private readonly EffectSettings _settings = new();
+    private readonly FlowLayoutPanel _left = new();
+    private readonly GlPreviewControl _preview = new();
+    private readonly Label _status = new();
+    private readonly RichTextBox _importView = new();
+    private readonly Timer _importTimer = new() { Interval = 5 };
+    private readonly Stopwatch _importClock = new();
+    private List<string> _importFrames = [];
+    private double _importFps = 20;
+    private int _importIndex = -1;
+    private readonly SafeComboBox _language = new();
+    private readonly SafeComboBox _effect = new();
+    private readonly SafeComboBox _preset = new();
+    private readonly SafeComboBox _charsetPreset = new();
+    private readonly SafeComboBox _palette = new();
+    private readonly SafeComboBox _shape = new();
+    private readonly TextBox _charset = new();
+    private readonly GlyphNumericUpDown _width = new(), _height = new(), _fps = new(), _duration = new(), _seed = new(), _glyphSize = new();
+    private readonly GlyphCheckBox _invert = new(), _color = new(), _exportCredit = new();
+    private readonly Button _exportButton = new GlyphButton();
+    private readonly Panel _generalParams = new(), _specificParams = new(), _paletteStops = new();
+    private readonly Dictionary<string, ParameterRow> _paramRows = new(StringComparer.OrdinalIgnoreCase);
+    private bool _applying;
+    private bool _exporting;
+    private readonly Button _pauseButton = new GlyphButton();
+    private readonly ToolTip _tips = new() { InitialDelay = 500, ReshowDelay = 100, AutoPopDelay = 10000, ShowAlways = true };
+    private Icon? _windowIcon;
+    private readonly DetachedWindowManager _detachedWindows;
+
+    public MainForm()
+    {
+        LinuxDiagnostics.Phase("MainForm: constructor entered");
+        LinuxDiagnostics.Phase("MainForm: create detached window manager");
+        _detachedWindows = new DetachedWindowManager(this);
+        LinuxDiagnostics.Phase("MainForm: create Discord presence service");
+        _discordPresence = new DiscordRichPresenceService(_preferences.DiscordRichPresenceEnabled);
+        Text = "Glyphoré 6.0.1";
+        LinuxControlInitialization.Defer(this, () => Size = new Size(1640, 980), nameof(Size));
+        LinuxControlInitialization.Defer(this, () => MinimumSize = new Size(1240, 760), nameof(MinimumSize));
+        LinuxControlInitialization.Defer(this, () => AutoScaleMode = AutoScaleMode.Dpi, nameof(AutoScaleMode));
+        LinuxControlInitialization.Defer(this, () => Font = new Font("Segoe UI", 9f), nameof(Font));
+        LinuxControlInitialization.Defer(this, () => BackColor = Theme.Bg, nameof(BackColor));
+        LinuxWindowChrome.TryEnableClientSideDecorations();
+        LinuxControlInitialization.Defer(this, () => ForeColor = Theme.Text, nameof(ForeColor));
+        LinuxControlInitialization.Defer(this, () => StartPosition = FormStartPosition.CenterScreen, nameof(StartPosition));
+        LinuxControlInitialization.Defer(this, () => ShowIcon = true, nameof(ShowIcon));
+        _windowIcon = LoadApplicationIcon();
+        if (_windowIcon is not null) LinuxControlInitialization.Defer(this, () => Icon = _windowIcon, nameof(Icon));
+        FormClosed += (_, _) =>
+        {
+            _detachedWindows.Dispose();
+            _windowIcon?.Dispose();
+        };
+
+        Shown += (_, _) => InitializeUiAfterShown();
+    }
+
+    private void InitializeUiAfterShown()
+    {
+        LinuxDiagnostics.Phase("MainForm: BuildUi");
+        BuildUi();
+        LinuxDiagnostics.Phase("MainForm: PopulateData");
+        PopulateData();
+        LinuxDiagnostics.Phase("MainForm: ApplyPreset");
+        ApplyPreset(_preset.Items.Count > 0 ? _preset.Items[0]!.ToString()! : "");
+        LinuxDiagnostics.Phase("MainForm: InitializeSceneFromCurrentSettings");
+        InitializeSceneFromCurrentSettings();
+        LinuxDiagnostics.Phase("MainForm: InitializeHistory");
+        InitializeHistory();
+
+        _preview.Settings = _settings;
+        _preview.Scene = _scene;
+        _preview.TargetFps = _settings.Fps;
+        _preview.FrameStats += (fps, ms, gpu) => BeginInvoke((Action)(() =>
+        {
+            string renderer = ShortRendererName(gpu);
+            bool hasCamera = Camera3D.TryGetSpec(_settings.Effect, out _);
+            string cameraHint = hasCamera
+                ? (Localization.English ? " · drag: orbit · wheel: zoom" : " · arrastra: cámara · rueda: zoom")
+                : "";
+            string layerInfo = _sceneReady ? $" · {_scene.Layers.Count}L" : "";
+            _status.Text = $"{_settings.Effect} / {_settings.Preset} · {_settings.Width}×{_settings.Height} · " +
+                           $"{fps:0.0}/{_settings.Fps} FPS · {ms:0.00} ms · {renderer}{layerInfo}{cameraHint}";
+            string details = Localization.English
+                ? $"Cross-platform preview\nRenderer: {gpu}\nASCII grid: {_settings.Width}×{_settings.Height}\nPreview: {_preview.Width}×{_preview.Height} px\nTarget: {_settings.Fps} FPS"
+                : $"Preview multiplataforma\nRenderer: {gpu}\nRejilla ASCII: {_settings.Width}×{_settings.Height}\nPreview: {_preview.Width}×{_preview.Height} px\nObjetivo: {_settings.Fps} FPS";
+            if (hasCamera) details += Localization.English
+                ? "\nCamera: drag to orbit, mouse wheel to zoom"
+                : "\nCámara: arrastra para moverla, rueda para zoom";
+            if (_tips.GetToolTip(_status) != details) _tips.SetToolTip(_status, details);
+        }));
+        _preview.CameraChanged += HandleCameraChanged;
+        _preview.MaskEdited += HandlePreviewMaskEdited;
+        _preview.MaskDeleteRequested += HandlePreviewMaskDelete;
+
+        InitializeDiscordPresence();
+        LinuxDiagnostics.Phase("MainForm: initialize Discord presence context");
+        UpdateDiscordPresenceContext();
+        LinuxDiagnostics.Phase("MainForm: UI initialization completed");
+    }
+
+    private static Icon? LoadApplicationIcon()
+    {
+        try
+        {
+            using Stream? stream = typeof(MainForm).Assembly.GetManifestResourceStream("Glyphore.AppIcon.ico");
+            if (stream is not null)
+            {
+                using var source = new Icon(stream);
+                return (Icon)source.Clone();
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static string ShortRendererName(string rendererInfo)
+    {
+        if (string.IsNullOrWhiteSpace(rendererInfo)) return "Renderer";
+        if (rendererInfo.StartsWith("Render error", StringComparison.OrdinalIgnoreCase))
+            return rendererInfo;
+
+        string renderer = rendererInfo.Split('·', 2)[0].Trim();
+        int suffix = renderer.IndexOf("/PCIe", StringComparison.OrdinalIgnoreCase);
+        if (suffix >= 0) renderer = renderer[..suffix].Trim();
+        renderer = renderer.Replace("NVIDIA GeForce ", "", StringComparison.OrdinalIgnoreCase);
+        renderer = renderer.Replace("AMD Radeon ", "Radeon ", StringComparison.OrdinalIgnoreCase);
+        return renderer.Length <= 28 ? renderer : renderer[..25].TrimEnd() + "…";
+    }
+}

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Glyphoré
+Comment=GPU-accelerated procedural character art studio
+Exec=glyphore
+Icon=glyphore
+Terminal=false
+Type=Application
+Categories=Graphics;Utility;
+StartupWMClass=Glyphore
