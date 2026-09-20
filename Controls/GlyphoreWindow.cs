@@ -11,10 +11,10 @@ internal class GlyphoreWindow : Form
 {
     private bool _resizable = true;
 
-    
-    
-    
-    
+
+
+
+
     public Panel ContentPanel { get; } = new();
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

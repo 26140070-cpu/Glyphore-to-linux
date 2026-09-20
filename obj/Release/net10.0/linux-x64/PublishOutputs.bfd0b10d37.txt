@@ -1,0 +1,8 @@
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/Glyphore.pdb
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/Assets/Glyphore.ico
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/Assets/Glyphore-Icon-1024.png
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/Assets/Glyphore.png
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/Assets/Glyphore-Logo.png
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/glyphore.desktop
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/libSkiaSharp.so
+/home/donalp012/Música/Copia de Glyphore-linux-6.0.1/dist/linux-x64/Glyphore

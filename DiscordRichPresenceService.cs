@@ -149,7 +149,7 @@ internal sealed class DiscordRichPresenceService : IAsyncDisposable
         string? runtime = Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR");
         if (!string.IsNullOrWhiteSpace(runtime))
             for (int i = 0; i < 10; i++) yield return Path.Combine(runtime, $"discord-ipc-{i}");
-        
+
         for (int i = 0; i < 10; i++) yield return $"/tmp/discord-ipc-{i}";
     }
 

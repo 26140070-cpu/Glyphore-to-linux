@@ -10,9 +10,9 @@ internal sealed partial class MainForm
         bool Bold,
         bool Italic);
 
-    
-    
-    
+
+
+
     private static readonly TitlePrefabDefinition[] TitlePrefabs =
         [new("System Font", "Consolas", true, false),
          .. AsciiTitlePrefabGenerator.Names.Select(name => new TitlePrefabDefinition(name, "Consolas", false, false))];
@@ -44,9 +44,9 @@ internal sealed partial class MainForm
         GlyphCheckBox italic = shell.Italic;
         GlyphCheckBox animate = shell.Animate;
 
-        
-        
-        
+
+
+
         var studioSplit = new SplitContainer
         {
             Dock = DockStyle.Fill,
@@ -115,9 +115,9 @@ internal sealed partial class MainForm
         previewHost.Controls.Add(titlePreview);
         previewLayout.Controls.Add(previewHost, 0, 0);
 
-        
-        
-        
+
+
+
         var previewSettings = _settings.Clone();
         previewSettings.Effect = "ASCII Title";
         previewSettings.Preset = "Custom";
@@ -131,9 +131,9 @@ internal sealed partial class MainForm
         var previewLayer = previewScene.Layers[0];
         previewLayer.Effect = "ASCII Title";
         previewLayer.Name = "Title preview";
-        
-        
-        
+
+
+
         previewLayer.Masks = activeTitle?.Masks ?? [];
         titlePreview.TargetFps = previewScene.Fps;
         titlePreview.Settings = previewSettings;
@@ -146,9 +146,9 @@ internal sealed partial class MainForm
             var owner = _scene.Layers.FirstOrDefault(layer => layer.Masks.Any(candidate => candidate.Id == mask.Id));
             if (owner is null) return;
 
-            
-            
-            
+
+
+
             owner.Touch();
             if (_activeMaskId == mask.Id)
             {
@@ -254,8 +254,8 @@ internal sealed partial class MainForm
         });
         bgButton.Margin = new Padding(0, 0, 8, 0);
 
-        
-        
+
+
         var previewMode = new SafeComboBox
         {
             Width = 104,
@@ -362,7 +362,7 @@ internal sealed partial class MainForm
             ? "Moves the same live cross-platform preview into an independent top-level window. The docked preview area collapses to give the title controls more room."
             : "Mueve la misma preview multiplataforma en directo a una ventana top-level independiente. El área acoplada se contrae para dejar más espacio a los ajustes del título.");
 
-        
+
         var controlsGroup = new ThemedGroupBox
         {
             Text = Localization.English ? "Title controls" : "Ajustes del título",
@@ -991,8 +991,8 @@ internal sealed partial class MainForm
                 if (closingDetachedPreview) return;
                 if (dialog.IsDisposed || !dialog.IsHandleCreated) return;
 
-                
-                
+
+
                 e.Cancel = true;
                 dialog.BeginInvoke((Action)DockPreview);
             };
@@ -1004,8 +1004,8 @@ internal sealed partial class MainForm
                 detachedPreviewMode = null;
             };
 
-            
-            
+
+
             window.Show();
             window.BringToFront();
             window.Activate();
@@ -1089,8 +1089,8 @@ internal sealed partial class MainForm
             applyingDialog = true;
             try
             {
-                
-                
+
+
                 if (definition.Name == "System Font")
                 {
                     if (!font.Items.Contains(definition.Font)) font.Items.Add(definition.Font);
@@ -1137,8 +1137,8 @@ internal sealed partial class MainForm
 
                 foreach (var syncColor in colorSynchronizers) syncColor();
 
-                
-                
+
+
                 if (CurrentStyleUsesAnimation()) animate.Checked = true;
             }
             finally { applyingDialog = false; }
@@ -1194,7 +1194,7 @@ internal sealed partial class MainForm
             if (animate.Checked) titlePreview.RestartAnimation();
         }
 
-        
+
         SceneEffectLayer CommitToScene(bool applyToActive)
         {
             string selectedFont = SelectedFont();
@@ -1339,8 +1339,8 @@ internal sealed partial class MainForm
         discordCopy.Margin = Padding.Empty;
         copyActions.Controls.Add(discordCopy);
 
-        
-        
+
+
         Button apply = null!;
 
         var add = Btn(Localization.English ? "Add to scene" : "Añadir a escena", (_, _) =>
@@ -1413,8 +1413,8 @@ internal sealed partial class MainForm
 
         dialog.Activated += (_, _) =>
         {
-            
-            
+
+
             if (_scene.ActiveLayer is { Effect: "ASCII Title" } selectedTitle)
             {
                 activeTitle = selectedTitle;
@@ -1450,8 +1450,8 @@ internal sealed partial class MainForm
         };
         dialog.Shown += (_, _) =>
         {
-            
-            
+
+
             studioSplit.Panel1MinSize = 0;
             studioSplit.Panel2MinSize = 0;
             int maximum = studioSplit.Height - controlsPanelMin - studioSplit.SplitterWidth;

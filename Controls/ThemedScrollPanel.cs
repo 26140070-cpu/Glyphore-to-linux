@@ -222,8 +222,8 @@ internal sealed class ThemedScrollPanel : UserControl, IGlyphWheelScrollHost
 
     private void ChildMouseWheel(object? sender, MouseEventArgs e)
     {
-        
-        
+
+
         if (sender is GlyphSlider or SafeComboBox or GlyphNumericUpDown or ListBox or TextBox or RichTextBox or DataGridView) return;
         ScrollByWheel(e.Delta);
     }

@@ -75,9 +75,9 @@ internal sealed partial class MainForm
         header.Controls.AddRange([brand, brandName, brandSubtitle, techLabel, settingsButton, aboutButton, accentLine]);
         root.Controls.Add(header, 0, 0);
 
-        
-        
-        
+
+
+
         var split = new SplitContainer
         {
             Dock = DockStyle.Fill,
@@ -433,8 +433,8 @@ internal sealed partial class MainForm
 
     private static void ConfigureMainSplit(SplitContainer split)
     {
-        
-        
+
+
         int width = split.ClientSize.Width;
         if (width <= 0) return;
 
@@ -445,8 +445,8 @@ internal sealed partial class MainForm
         int maxDistance = Math.Max(0, width - split.SplitterWidth - desiredRightMinimum);
         int distance = Math.Clamp(desiredLeft, 0, maxDistance);
 
-        
-        
+
+
         int leftMinimum = Math.Min(desiredLeftMinimum, Math.Max(0, distance));
         int rightMinimum = Math.Min(desiredRightMinimum, Math.Max(0, width - split.SplitterWidth - distance));
 
@@ -459,8 +459,8 @@ internal sealed partial class MainForm
     {
         if (_left.IsDisposed || _left.ClientSize.Width <= 0) return;
 
-        
-        
+
+
         int available = Math.Max(80, _left.ClientSize.Width - _left.Padding.Horizontal);
 
         foreach (Control control in _left.Controls)

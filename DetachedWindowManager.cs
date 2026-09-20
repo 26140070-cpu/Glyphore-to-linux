@@ -49,8 +49,8 @@ internal sealed class DetachedWindowManager : IDisposable
             return;
         }
 
-        
-        
+
+
         window.ShowInTaskbar = true;
         if (centerOnMain) PositionNearMain(window);
 

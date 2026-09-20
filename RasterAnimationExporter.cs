@@ -171,8 +171,8 @@ internal static class RasterAnimationExporter
                 reusablePngRgba = frame.Rgba32;
                 SaveRgbaPng(Path.Combine(directory, $"frame_{i:000000}.png"), frame);
                 detailedProgress?.Invoke(new RasterExportProgress(RasterExportStage.WritingFrames, i + 1, frameCount));
-                
-                
+
+
                 await Task.Yield();
             }
             return;
@@ -195,9 +195,9 @@ internal static class RasterAnimationExporter
 
         using var process = Process.Start(psi) ?? throw new InvalidOperationException("No se pudo iniciar FFmpeg.");
         Task<string> stderrTask = process.StandardError.ReadToEndAsync();
-        
-        
-        
+
+
+
         Task stdoutTask = Task.Run(async () =>
         {
             while (await process.StandardOutput.ReadLineAsync().ConfigureAwait(false) is not null) { }
