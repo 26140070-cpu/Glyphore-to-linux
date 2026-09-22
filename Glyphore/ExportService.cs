@@ -124,7 +124,7 @@ internal static partial class ExportService
         }
     }
 
-    /// <summary>Avalonia UI helper: export a single captured text frame from the live scene.</summary>
+    
     public static void Save(string path, GlyphoreScene scene, string text)
     {
         var layer = scene.EnsureActiveLayer(new EffectSettings());

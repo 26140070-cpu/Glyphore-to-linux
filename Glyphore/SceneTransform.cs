@@ -5,7 +5,7 @@ internal sealed class SceneTransform
     public double Rotation { get; set; }
     public double PerspectiveX { get; set; }
     public double PerspectiveY { get; set; }
-    /// <summary>Linux UI convenience; maps to glyph display scale elsewhere when needed.</summary>
+    
     public double Scale { get; set; } = 1.0;
 
     public SceneTransform Clone() => new()

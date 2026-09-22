@@ -18,8 +18,8 @@ internal sealed class SceneLayerMask
     public double GradientSoftness { get; set; } = 0.5;
     public double NoiseScale { get; set; } = 8.0;
     public int NoiseSeed { get; set; } = 1337;
-    // Shape-specific amount: rounded-rectangle corner radius, ring inner radius,
-    // or star inner radius depending on mask type.
+    
+    
     public double ShapeAmount { get; set; } = 0.35;
     public SceneTriangleType TriangleType { get; set; } = SceneTriangleType.Equilateral;
     public int PolygonSides { get; set; } = 6;
@@ -61,15 +61,15 @@ internal sealed class SceneLayerMask
     {
         X = Math.Clamp(X, -2.0, 3.0);
         Y = Math.Clamp(Y, -2.0, 3.0);
-        // Avoid numerically degenerate editor geometry. One percent of layer-space is
-        // still visually very flat, but it cannot collapse into effectively infinite lines.
+        
+        
         Width = Math.Clamp(Width, 0.01, 4.0);
         Height = Math.Clamp(Height, 0.01, 4.0);
         if (Type == SceneMaskType.Triangle)
         {
-            // A triangle with an almost-zero axis turns into a numerically valid but visually
-            // absurd near-infinite line. Keep extreme squash available while avoiding the
-            // degenerate gizmo/SDF case (maximum 32:1 aspect ratio).
+            
+            
+            
             const double maxAspect = 32.0;
             if (Width > Height * maxAspect) Height = Width / maxAspect;
             else if (Height > Width * maxAspect) Width = Height / maxAspect;

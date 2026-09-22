@@ -228,9 +228,9 @@ internal sealed partial class GlPreviewControl
         NativeGl.BindTexture(NativeGl.GL_TEXTURE_2D, _glyphMapTex);
         Ui(_captureProgram, "u_glyph_map", 3);
 
-        // Glyph ownership is deterministic: lower layers are written first, then an upper
-        // visible layer replaces the glyph for cells where that layer actually has content.
-        // Color/intensity still use their configured blend mode independently.
+        
+        
+        
         for (int i = scene.Layers.Count - 1; i >= 0; i--)
         {
             var layer = scene.Layers[i];
@@ -279,10 +279,10 @@ internal sealed partial class GlPreviewControl
         U1(_captureProgram, "u_color_gamma", (float)scene.Gamma);
         Ui(_captureProgram, "u_color_invert", scene.Invert ? 1 : 0);
 
-        // Preserve the legacy single-layer intensity path so introducing premultiplied RGBA
-        // composition does not change glyph selection/brightness for ordinary scenes. Colour
-        // output deliberately always goes through blending, including one layer, so its texture
-        // has one consistent premultiplied-alpha representation.
+        
+        
+        
+        
         if (!colorOutput && visibleLayers.Count == 1 && visibleLayers[0] is { BlendMode: LayerBlendMode.Normal, Opacity: >= 0.9999 } singleLayer)
         {
             var settings = GetLayerRenderSettings(scene, singleLayer);
@@ -299,8 +299,8 @@ internal sealed partial class GlPreviewControl
 
         NativeGl.Enable(NativeGl.GL_BLEND);
 
-        // The first item in the list is the visual top layer. Draw bottom-to-top so
-        // Normal alpha blending can make that ordering deterministic.
+        
+        
         for (int i = scene.Layers.Count - 1; i >= 0; i--)
         {
             var layer = scene.Layers[i];
@@ -334,9 +334,9 @@ internal sealed partial class GlPreviewControl
 
     private float ResolveTitleAnimationTime(EffectSettings settings, double? sourceTimeSeconds)
     {
-        // Title animation deliberately uses an absolute paused-aware clock rather than the
-        // per-layer integration cache. This keeps wave/shimmer/glitch moving in detached
-        // previews and also makes exported frames deterministic from their requested time.
+        
+        
+        
         double timeline = sourceTimeSeconds ?? CurrentTimeSeconds;
         return (float)(timeline * settings.Get("speed") * settings.Get("time_freq"));
     }

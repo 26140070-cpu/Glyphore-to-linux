@@ -126,8 +126,8 @@ internal sealed partial class MainForm
         if (commit)
         {
             SyncMaskControls();
-            // The preview control already touched the layer during live manipulation.
-            // Push once on commit so history receives one stable edit instead of one entry per MouseMove.
+            
+            
             PushSceneOnly();
         }
         else

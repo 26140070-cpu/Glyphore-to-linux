@@ -159,9 +159,9 @@ internal static class DetachedWindowSmokeTest
             if (loaded.FormatVersion != GlyphoreScene.CurrentFormatVersion)
                 throw new InvalidOperationException("Scene save did not emit the current scene format version.");
 
-            // Simulate loading the active layer into the editor and capturing it back after a
-            // custom adjustment. Unknown/future values and preset provenance must survive this
-            // path too, not merely the JSON serializer round-trip.
+            
+            
+            
             EffectSettings editorRoundTrip = loaded.CreateSettings(loadedLayer);
             editorRoundTrip.Preset = "Custom";
             loadedLayer.CaptureFrom(editorRoundTrip);
@@ -170,8 +170,8 @@ internal static class DetachedWindowSmokeTest
             if (!string.Equals(loadedLayer.SourcePreset, "Typewriter", StringComparison.Ordinal))
                 throw new InvalidOperationException("Editor capture discarded customized layer preset provenance.");
 
-            // Export freezes a deep scene clone. Mutating the live editor scene after the
-            // snapshot must not alter layer values, masks, provenance or common scene data.
+            
+            
             GlyphoreScene exportSnapshot = loaded.Clone();
             loaded.BackgroundColor = "#123456";
             loadedLayer.Values["title_fade_progress"] = .91;
@@ -527,8 +527,8 @@ internal static class DetachedWindowSmokeTest
         Rectangle outer = window.Bounds;
         int frameTolerance = Math.Max(16, (int)Math.Ceiling(window.DeviceDpi / 96.0 * 24));
 
-        // A standard maximized Win32 window can keep an invisible resize frame a few pixels
-        // outside rcWork. Accept that native geometry, but reject large/custom offsets.
+        
+        
         if (!outer.Contains(work))
         {
             throw new InvalidOperationException(

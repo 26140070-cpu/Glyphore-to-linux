@@ -70,7 +70,7 @@ internal sealed partial class MainForm
     {
         if (!_sceneReady || _scene.ActiveLayer is null) return;
         var menu = new ContextMenuStrip { BackColor = Theme.PanelRaised, ForeColor = Theme.Text, ShowImageMargin = false };
-        void Add(string text, SceneMaskType type) => menu.Items.Add(text, null, (_, _) => AddMask(type));
+        void Add(string text, SceneMaskType type) => menu.Items.Add(text, null!, (_, _) => AddMask(type));
         Add("Rectangle", SceneMaskType.Rectangle);
         Add("Circle / Ellipse", SceneMaskType.Ellipse);
         Add("Linear Gradient", SceneMaskType.LinearGradient);

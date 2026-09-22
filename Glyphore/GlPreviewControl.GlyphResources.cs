@@ -37,8 +37,8 @@ internal sealed partial class GlPreviewControl
                 }
             }
 
-            // The layer charset is the complete visible glyph vocabulary. FIGlet output is
-            // geometry only and must never inject its implementation characters into the atlas.
+            
+            
             AddRunes(layer.Charset);
             if (runeList.Count == 0) runeList.Add(new Rune(' '));
 

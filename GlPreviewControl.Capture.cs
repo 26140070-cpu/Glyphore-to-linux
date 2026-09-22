@@ -82,9 +82,9 @@ internal sealed partial class GlPreviewControl
         Color? solidColor = null)
         => CaptureExportFrameCore(_scene, timeSeconds, includeRaster, backgroundMode, solidColor);
 
-    // Export may take seconds or minutes. Render from an immutable scene snapshot rather than
-    // consulting the live editor scene on every frame; this guarantees that save/load/export
-    // all consume exactly the same layer values, preset provenance and mask/title metadata.
+    
+    
+    
     public ExportFrame CaptureExportFrame(
         GlyphoreScene sceneSnapshot,
         double timeSeconds,
@@ -111,8 +111,8 @@ internal sealed partial class GlPreviewControl
         if (sceneOverride is { Layers.Count: > 0 } scene)
         {
             renderedScene = scene;
-            // Sync resources for the explicit snapshot. SyncAtlasIfNeeded() intentionally follows
-            // the live _scene field and would make an export snapshot depend on editor state.
+            
+            
             SyncSceneGlyphResources(scene);
             RenderSceneIntensity(scene, timeSeconds);
             RenderSceneColor(scene, timeSeconds);
@@ -156,8 +156,8 @@ internal sealed partial class GlPreviewControl
     }
 
 
-    // Raster/video export does not need the textual frame, RGB24 cell colors or A8 cell plane.
-    // Capture only the final raster so long videos stay O(one frame) in managed memory.
+    
+    
     public RasterFrame CaptureRasterExportFrame(
         GlyphoreScene sceneSnapshot,
         double timeSeconds,

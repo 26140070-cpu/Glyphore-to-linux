@@ -2,56 +2,16 @@ using System.ComponentModel;
 
 namespace Glyphore;
 
-internal sealed class ParameterRow : UserControl
+internal sealed class ParameterRow : SafeGeometryUserControl
 {
     private readonly GlyphSlider? _track;
     private readonly TextBox? _text;
     private readonly SafeComboBox? _combo;
     private readonly ParamDesc _desc;
     private readonly ToolTip _tip = new() { InitialDelay = 450, ReshowDelay = 100, AutoPopDelay = 10000, ShowAlways = true };
-    private readonly Timer? _textCommitTimer;
+    private readonly System.Windows.Forms.Timer? _textCommitTimer;
     private bool _sync;
     private bool _textDirty;
-    private int _logicalWidth = 390;
-    private int _logicalHeight = 34;
-
-    public new int Width
-    {
-        get
-        {
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return _logicalWidth;
-            try { return base.Width; } catch { return _logicalWidth; }
-        }
-        set
-        {
-            _logicalWidth = Math.Max(0, value);
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return;
-            try { base.Width = _logicalWidth; } catch (Exception ex) { LinuxDiagnostics.Exception($"{GetType().Name}.Width", ex); }
-        }
-    }
-
-    public new int Height
-    {
-        get
-        {
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return _logicalHeight;
-            try { return base.Height; } catch { return _logicalHeight; }
-        }
-        set
-        {
-            _logicalHeight = Math.Max(0, value);
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return;
-            try { base.Height = _logicalHeight; } catch (Exception ex) { LinuxDiagnostics.Exception($"{GetType().Name}.Height", ex); }
-        }
-    }
-
-    private void ApplyLogicalSize(object? sender, EventArgs e)
-    {
-        try { base.Size = new Size(_logicalWidth, _logicalHeight); }
-        catch (Exception ex) { LinuxDiagnostics.Exception($"{GetType().Name}.HandleCreated.Size", ex); }
-    }
-
-    protected override Size DefaultSize => new(390, 34);
 
     public event Action<double>? ValueChanged;
     public double Value { get; private set; }
@@ -68,11 +28,12 @@ internal sealed class ParameterRow : UserControl
 
     public ParameterRow(ParamDesc description, double value)
     {
-        HandleCreated += ApplyLogicalSize;
         description = Localization.Param(description);
         _desc = description;
-        LinuxControlInitialization.Defer(this, () => BackColor = Theme.Panel, nameof(BackColor));
-        LinuxControlInitialization.Defer(this, () => ForeColor = Theme.Text, nameof(ForeColor));
+        Size = new Size(390, 34);
+        Dock = DockStyle.None;
+        BackColor = Theme.Panel;
+        ForeColor = Theme.Text;
 
         var label = new Label
         {
@@ -119,7 +80,7 @@ internal sealed class ParameterRow : UserControl
                 Maximum = 1000
             };
             _text = new TextBox { Left = 312, Top = 5, Width = 78, Height = 24 };
-            _textCommitTimer = new Timer { Interval = 300 };
+            _textCommitTimer = new System.Windows.Forms.Timer { Interval = 300 };
             _textCommitTimer.Tick += (_, _) =>
             {
                 _textCommitTimer.Stop();
@@ -134,8 +95,8 @@ internal sealed class ParameterRow : UserControl
             {
                 if (_sync) return;
 
-
-
+                
+                
                 CancelPendingText();
                 double v = description.Min + (_track.Value / 1000.0) * (description.Max - description.Min);
                 SetInternal(v, true, updateText: true);
@@ -203,8 +164,8 @@ internal sealed class ParameterRow : UserControl
             }
             else
             {
-
-
+                
+                
                 Value = value;
                 double sliderValue = Math.Clamp(value, _desc.Min, _desc.Max);
                 if (_track is not null)
@@ -244,19 +205,22 @@ internal sealed class ParameterRow : UserControl
         {
             bool changed = value != Value;
             _textDirty = false;
-
-
-
+            
+            
+            
             SetInternal(value, changed, updateText: hardCommit);
             return;
         }
 
-
-
+        
+        
         if (!hardCommit) return;
 
         _textDirty = false;
-        Console.Error.Write("\a");
+        if (OperatingSystem.IsWindows())
+        {
+            System.Media.SystemSounds.Beep.Play();
+        }
         SetInternal(Value, false, updateText: true);
     }
 

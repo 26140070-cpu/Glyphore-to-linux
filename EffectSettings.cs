@@ -16,8 +16,8 @@ internal sealed class EffectSettings
     public bool ColorEnabled { get; set; } = true;
     public bool IncludeExportCredit { get; set; } = true;
     public bool Invert { get; set; }
-    // Preview-only glyph magnification. 1.15 closely matches the compact cell fill
-    // users expect from Windows Terminal / PowerShell / cmd while remaining adjustable.
+    
+    
     public double GlyphDisplayScale { get; set; } = 1.90;
     public string ShapeMode { get; set; } = "Square";
 

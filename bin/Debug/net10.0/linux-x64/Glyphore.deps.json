@@ -17,7 +17,8 @@
           "SkiaSharp": "2.88.9",
           "SkiaSharp.NativeAssets.Linux": "2.88.9",
           "System.Resources.Extensions": "8.0.0",
-          "System.Windows.Extensions": "8.0.0"
+          "System.Windows.Extensions": "8.0.0",
+          "Tmds.DBus.Protocol": "0.21.3"
         },
         "runtime": {
           "Glyphore.dll": {}
@@ -249,6 +250,14 @@
             "fileVersion": "8.0.23.53103"
           }
         }
+      },
+      "Tmds.DBus.Protocol/0.21.3": {
+        "runtime": {
+          "lib/net8.0/Tmds.DBus.Protocol.dll": {
+            "assemblyVersion": "0.21.3.0",
+            "fileVersion": "0.21.3.0"
+          }
+        }
       }
     }
   },
@@ -411,6 +420,13 @@
       "sha512": "sha512-Obg3a90MkOw9mYKxrardLpY2u0axDMrSmy4JCdq2cYbelM2cUwmUir5Bomvd1yxmPL9h5LVHU1tuKBZpUjfASg==",
       "path": "system.windows.extensions/8.0.0",
       "hashPath": "system.windows.extensions.8.0.0.nupkg.sha512"
+    },
+    "Tmds.DBus.Protocol/0.21.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hDwB8WsQoyALQKqIbwzS68UKdlnafDm4T/DkO/JrA/YIneP/rKv96SxYPVXeh3FP4i/SXfShrYftKLtciJAIlw==",
+      "path": "tmds.dbus.protocol/0.21.3",
+      "hashPath": "tmds.dbus.protocol.0.21.3.nupkg.sha512"
     }
   }
 }

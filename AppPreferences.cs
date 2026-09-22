@@ -27,7 +27,7 @@ internal sealed class AppPreferences
         }
         catch
         {
-            // Preferences are convenience state. A malformed/locked file must never prevent startup.
+            
             return new AppPreferences();
         }
     }
@@ -46,7 +46,7 @@ internal sealed class AppPreferences
         }
         catch
         {
-            // A read-only profile should not turn a preference toggle into an application error.
+            
         }
     }
 }

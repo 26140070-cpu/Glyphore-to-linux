@@ -53,11 +53,11 @@ internal sealed partial class GlPreviewControl
             int w = Math.Max(2, settings.Width);
             int h = Math.Max(2, settings.Height);
 
-            // Keep the source title geometry independent from visual effects. Glow, outline,
-            // shadow, wave, rotation and perspective must never silently shrink the letters.
-            // Use almost the whole logical title canvas. Position X/Y then traverses the
-            // remaining free space all the way to the visible edges instead of being trapped
-            // inside a small central safe region.
+            
+            
+            
+            
+            
             const float safeWidth = .92f;
             const float safeHeight = .84f;
             float titleScale = (float)Math.Clamp(settings.Get("title_size"), .15, 2.5);
@@ -69,8 +69,8 @@ internal sealed partial class GlPreviewControl
 
             if (generatedPrefab)
             {
-                // FIGlet contributes only occupied-cell geometry. Visible glyph selection is
-                // performed later from the layer's selected charset, exactly like other effects.
+                
+                
                 pixels = BuildGeneratedPrefabGrid(
                     text,
                     prefab,
@@ -123,9 +123,9 @@ internal sealed partial class GlPreviewControl
                     float targetW = renderW * safeWidth;
                     float targetH = renderH * safeHeight;
                     float baseFit = Math.Min(1f, Math.Min(targetW / Math.Max(1f, measured.Width), targetH / Math.Max(1f, measured.Height)));
-                    // title_size=1 means “fit”. Values above 1 deliberately grow beyond that fit
-                    // instead of being clamped back to the same size. Letter spacing participates
-                    // in measured.Width before this fit, so tracking never bypasses clipping/fit.
+                    
+                    
+                    
                     float finalPx = Math.Max(2f, nominalPx * baseFit * titleScale);
                     Font font = CreateFont(finalPx);
 
@@ -134,8 +134,8 @@ internal sealed partial class GlPreviewControl
                         var rect = new RectangleF(0, 0, renderW, renderH);
                         if (letterSpacing == 0)
                         {
-                            // Compatibility path: preserve the original DrawString rendering
-                            // exactly when tracking is zero.
+                            
+                            
                             graphics.DrawString(text, font, brush, rect, format);
                         }
                         else
@@ -146,9 +146,9 @@ internal sealed partial class GlPreviewControl
                     }
                 }
 
-                // Graphics.DrawString centers typographic metrics, which can still leave the
-                // visible ink off-center because of font side-bearings. Recenter the actual
-                // rendered pixels before applying the user's X/Y offset.
+                
+                
+                
                 Rectangle ink = FindVisibleInkBounds(renderBitmap);
                 using var centeredBitmap = new Bitmap(renderW, renderH, PixelFormat.Format32bppArgb);
                 using (var centered = Graphics.FromImage(centeredBitmap))
@@ -157,8 +157,8 @@ internal sealed partial class GlPreviewControl
                     centered.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
                     int recenterX = ink.Width > 0 ? (int)Math.Round(renderW * .5 - (ink.Left + ink.Width * .5)) : 0;
                     int recenterY = ink.Height > 0 ? (int)Math.Round(renderH * .5 - (ink.Top + ink.Height * .5)) : 0;
-                    // X/Y are normalized placement controls: -1 and +1 move the visible ink
-                    // to the corresponding canvas edge whenever there is free space.
+                    
+                    
                     int travelX = ink.Width > 0 ? Math.Max(0, (renderW - ink.Width) / 2) : renderW / 2;
                     int travelY = ink.Height > 0 ? Math.Max(0, (renderH - ink.Height) / 2) : renderH / 2;
                     int shiftX = recenterX + (int)Math.Round(titleX * travelX);
@@ -206,8 +206,8 @@ internal sealed partial class GlPreviewControl
                     NativeGl.GL_BGRA, NativeGl.GL_UNSIGNED_BYTE, (IntPtr)pixelPtr);
             }
 
-            // Generated prefab source symbols never become visible glyphs. The title mask is
-            // charset-independent, so changing charset only rebuilds the scene glyph resources.
+            
+            
             resource.Signature = signature;
         }
 
@@ -332,8 +332,8 @@ internal sealed partial class GlPreviewControl
         Rune[][] rawLines = art.Split('\n').Select(line => line.EnumerateRunes().ToArray()).ToArray();
         if (rawLines.Length == 0) rawLines = [new[] { new Rune(' ') }];
 
-        // FIGlet fonts often contain asymmetric outer padding. Center the visible glyph bounds,
-        // not the font's invisible padding, so title_x/title_y == 0 is visually centered.
+        
+        
         int minInkX = int.MaxValue;
         int maxInkX = -1;
         int minInkY = int.MaxValue;
@@ -379,7 +379,7 @@ internal sealed partial class GlPreviewControl
         int safeCellsW = Math.Max(1, (int)Math.Floor(width * safeWidth));
         int safeCellsH = Math.Max(1, (int)Math.Floor(height * safeHeight));
         double fitScale = Math.Min(safeCellsW / (double)artWidth, safeCellsH / (double)artHeight);
-        // A value of 1 fits the banner. >1 grows it and <1 shrinks it.
+        
         double scale = Math.Clamp(fitScale * titleScale, 0.08, 8.0);
         int drawW = Math.Max(1, (int)Math.Round(artWidth * scale));
         int drawH = Math.Max(1, (int)Math.Round(artHeight * scale));

@@ -66,7 +66,7 @@ internal sealed partial class MainForm
         var label = new Label
         {
             Text = localized ? Localization.Text(labelKey) : labelKey,
-            Tag = localized ? labelKey : null,
+            Tag = localized ? (object)labelKey : string.Empty,
             Left = 10,
             Top = y + 3,
             Width = 180,

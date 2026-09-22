@@ -2,8 +2,8 @@ namespace Glyphore;
 
 internal static class Theme
 {
-
-
+    
+    
     public static readonly Color Bg = Color.FromArgb(11, 14, 20);
     public static readonly Color Panel = Color.FromArgb(15, 19, 26);
     public static readonly Color PanelRaised = Color.FromArgb(20, 25, 34);
@@ -22,16 +22,13 @@ internal static class Theme
     public static readonly Color AccentText = Color.FromArgb(237, 183, 100);
     public static readonly Color BrandSurface = Color.FromArgb(11, 14, 20);
 
-    public static Majorsilence.Forms.Drawing.Drawing2D.GraphicsPath RoundedRect(Rectangle rect, int radius)
+    public static System.Drawing.Drawing2D.GraphicsPath RoundedRect(Rectangle rect, int radius)
     {
-        int r = Math.Max(1, Math.Min(radius, Math.Min(rect.Width, rect.Height) / 2));
-        int diameter = r * 2;
-        var path = new Majorsilence.Forms.Drawing.Drawing2D.GraphicsPath();
-        path.AddArc(rect.Left, rect.Top, diameter, diameter, 180, 90);
-        path.AddArc(rect.Right - diameter, rect.Top, diameter, diameter, 270, 90);
-        path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
-        path.AddArc(rect.Left, rect.Bottom - diameter, diameter, diameter, 90, 90);
-        path.CloseFigure();
+        
+        
+        
+        var path = new System.Drawing.Drawing2D.GraphicsPath();
+        path.AddRectangle(rect);
         return path;
     }
 

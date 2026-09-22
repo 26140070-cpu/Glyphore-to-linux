@@ -207,7 +207,7 @@ finally
 
     private static void SaveText(string path, List<ExportFrame> frames)
     {
-        // Raw text intentionally stays untouched: adding attribution text would alter the artwork.
+        
         File.WriteAllText(path, frames.FirstOrDefault()?.Text ?? string.Empty, Utf8NoBom);
     }
 }

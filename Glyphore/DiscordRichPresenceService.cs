@@ -104,8 +104,8 @@ internal sealed class DiscordRichPresenceService : IAsyncDisposable
     public void NotifyUserActivity()
     {
         long now = Environment.TickCount64;
-        // Mouse movement can produce hundreds of messages a second. Recording activity every
-        // 100 ms is more than enough for a five-minute idle detector and avoids needless writes.
+        
+        
         long previous = Interlocked.Read(ref _lastActivityTick);
         if (unchecked(now - previous) >= 100 || unchecked(now - previous) < 0)
             Interlocked.Exchange(ref _lastActivityTick, now);

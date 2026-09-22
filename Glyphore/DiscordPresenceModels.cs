@@ -28,8 +28,8 @@ internal readonly record struct DiscordPresenceDescriptor(
     string LargeImage,
     string LargeText);
 
-/// <summary>
-/// Minimal Discord local RPC client used by Glyphoré. This deliberately implements only the
-/// legacy IPC pieces needed by Rich Presence: handshake, SET_ACTIVITY, ping/pong and reconnect.
-/// It has no OAuth, HTTP, bot, token, Social SDK or native dependency.
-/// </summary>
+
+
+
+
+

@@ -55,9 +55,9 @@ internal static class ThirdPartyLicenseUiSmokeTest
         if (!viewer.LicenseIsReadOnly || !viewer.LicenseHasNativeScrollBars || viewer.LicenseLineCount < 20)
             throw new InvalidOperationException("The full-license viewer is not configured as a read-only scrollable text viewport.");
 
-        // Prove that the RichEdit scroll range reaches both ends of the embedded license. This
-        // specifically guards against the previous custom-scrollbar bug where the last part of
-        // a long license existed in Text but could not be reached by the viewport.
+        
+        
+        
         viewer.ClientSize = new Size(650, 500);
         viewer.ScrollLicenseToEndForTest();
         Application.DoEvents();

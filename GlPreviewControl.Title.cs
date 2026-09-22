@@ -205,8 +205,8 @@ internal sealed partial class GlPreviewControl
         byte[] result = new byte[count];
         IntPtr pixels = bitmap.GetPixels();
         Marshal.Copy(pixels, result, 0, count);
-        // The bitmap is BGRA, while the field historically remains named pixels and the GL upload
-        // explicitly uses GL_BGRA. Keep that exact representation for zero-copy texture upload.
+        
+        
         return result;
     }
 

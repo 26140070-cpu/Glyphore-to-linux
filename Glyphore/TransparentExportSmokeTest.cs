@@ -72,8 +72,8 @@ internal static class TransparentExportSmokeTest
         RasterFrame magentaRaster = magentaFrame.Raster ?? throw new InvalidOperationException("Transparent capture did not return an RGBA raster frame.");
         ValidateAlphaRange(magentaRaster, "OpenGL RGBA readback");
 
-        // Preview background is an editor-only surface. A transparent export must be bit-identical
-        // when the preview background changes underneath it.
+        
+        
         preview.PreviewBackgroundColor = Color.White;
         preview.PreviewBackgroundMode = PreviewBackgroundMode.Checkerboard;
         Application.DoEvents();

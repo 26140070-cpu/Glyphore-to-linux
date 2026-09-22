@@ -31,7 +31,7 @@ internal sealed partial class MainForm
         }
         catch
         {
-            // Presence shutdown is best-effort and must never trap the application open.
+            
         }
         finally
         {

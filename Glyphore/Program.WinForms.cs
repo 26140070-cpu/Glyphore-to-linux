@@ -45,8 +45,8 @@ internal static class Program
         }
         catch (Exception ex)
         {
-            // MainForm constructor/startup failures happen before a window exists. Because this is
-            // a WinExe there is normally no console, so make the failure visible and persist it.
+            
+            
             ReportFatal("Startup", ex, showDialog: true);
         }
     }
@@ -84,7 +84,7 @@ internal static class Program
         }
         catch
         {
-            // Build diagnostics are best-effort and must not hide the original self-test failure.
+            
         }
     }
 
@@ -100,7 +100,7 @@ internal static class Program
         }
         catch
         {
-            // Diagnostics must never cause a second crash.
+            
         }
 
         if (!showDialog) return;
@@ -115,7 +115,7 @@ internal static class Program
         }
         catch
         {
-            // Nothing else can be displayed safely at this point.
+            
         }
     }
 }

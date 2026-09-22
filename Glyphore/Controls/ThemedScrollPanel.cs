@@ -195,8 +195,8 @@ internal sealed class ThemedScrollPanel : UserControl, IGlyphWheelScrollHost
 
     private void ChildMouseWheel(object? sender, MouseEventArgs e)
     {
-        // Controls with their own scrolling consume the wheel themselves. Routing the same
-        // event to this container made a ListBox move AND the whole inspector move at once.
+        
+        
         if (sender is GlyphSlider or SafeComboBox or GlyphNumericUpDown or ListBox or TextBoxBase or DataGridView) return;
         ScrollByWheel(e.Delta);
     }

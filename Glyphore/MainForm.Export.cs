@@ -53,9 +53,9 @@ internal sealed partial class MainForm
         _exportButton.Enabled = false;
         UseWaitCursor = true;
 
-        // Commit the editor state exactly once, then freeze a complete scene snapshot. Export must
-        // never depend on whatever layer happens to be active, on a stale render cache, or on a
-        // later UI event that fires while frames are being encoded.
+        
+        
+        
         GlyphoreScene? exportScene = null;
         if (!_importView.Visible && _sceneReady && _scene.Layers.Count > 0)
         {
@@ -76,9 +76,9 @@ internal sealed partial class MainForm
                 : _settings.Clone();
             int exportedFrameCount;
 
-            // Native scene raster/video exports are streamed one frame at a time. The previous
-            // implementation retained every full RGBA RasterFrame until FFmpeg started; at 1080p
-            // that is ~8 MiB/frame and could exceed 10 GiB on an ordinary animation.
+            
+            
+            
             if (rasterOptions is not null && exportScene is not null && !_importView.Visible)
             {
                 GlyphoreScene sceneSnapshot = exportScene;
@@ -126,8 +126,8 @@ internal sealed partial class MainForm
             }
             else
             {
-                // Native text/code exports are streamed too. Keeping Text + RGB24 + A8 for every
-                // frame was just as expensive as the old raster path on large ASCII grids.
+                
+                
                 if (rasterOptions is null && !_importView.Visible)
                 {
                     int frameCount = SafeExportFrameCount(exportSettings);
@@ -160,8 +160,8 @@ internal sealed partial class MainForm
                 }
                 else
                 {
-                    // Imported PowerShell frames already exist in memory as plain strings. Keep this
-                    // compatibility path; it does not retain native RGB/A8 planes.
+                    
+                    
                     List<ExportFrame> frames;
                     if (_importView.Visible && _importFrames.Count > 0)
                     {

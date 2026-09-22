@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,7 +9,7 @@
     <RootNamespace>Glyphore</RootNamespace>
     <Product>Glyphoré</Product>
     <Title>Glyphoré</Title>
-    <Description>Cross-platform procedural character art studio for Linux.</Description>
+    <Description>GPU-accelerated procedural character art studio for Linux.</Description>
     <Version>6.0.1</Version>
     <AssemblyVersion>6.0.1.0</AssemblyVersion>
     <FileVersion>6.0.1.0</FileVersion>
@@ -20,12 +20,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GTKSystem.Windows.Forms" Version="1.3.24.89" />
+    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
+    <PackageReference Include="Tmds.DBus.Protocol" Version="0.21.3" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+    <PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
     <PackageReference Include="Google.GenAI" Version="1.21.1" />
-    <PackageReference Include="Majorsilence.Forms" Version="26.0.30" />
-    <PackageReference Include="Majorsilence.Forms.Avalonia" Version="26.0.30" />
-    <PackageReference Include="Majorsilence.Forms.Drawing.Common" Version="26.0.30" />
-    <PackageReference Include="SkiaSharp" Version="3.119.4" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
     <PackageReference Include="Figgle" Version="0.6.6" />
     <PackageReference Include="Figgle.Fonts" Version="0.6.6" />
   </ItemGroup>
@@ -39,6 +41,15 @@
     <Compile Remove="GlPreviewControl.Input.cs" />
     <Compile Remove="*SmokeTest.cs" />
     <Compile Remove="GlyphoreActivityMessageFilter.cs" />
+    <Compile Remove="Glyphore\**\*.cs" />
+    <Compile Remove="Glyphore\**\*.axaml" />
+    <Compile Remove="Glyphore\**\*.json" />
+    <Compile Remove="Glyphore\**\*.glsl" />
+    <Compile Remove="Glyphore\**\*.png" />
+    <Compile Remove="Glyphore\**\*.ico" />
+    <EmbeddedResource Remove="Glyphore\**\*" />
+    <None Remove="Glyphore\**\*" />
+    <Content Remove="Glyphore\**\*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +59,7 @@
     <Content Include="Assets/Glyphore-Logo.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="glyphore.desktop" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="Data/*.json" />
+    <EmbeddedResource Include="Shaders/*.glsl" />
     <EmbeddedResource Include="Licenses/*.txt">
       <LogicalName>Glyphore.Licenses.%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>

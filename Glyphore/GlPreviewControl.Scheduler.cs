@@ -51,7 +51,7 @@ internal sealed partial class GlPreviewControl
             long now = Stopwatch.GetTimestamp();
             if (now >= next)
             {
-                // Keep a stable cadence, but do not try to replay a backlog after a stall.
+                
                 next = now - next > period * 4 ? now + period : next + period;
                 QueueFrame();
                 continue;

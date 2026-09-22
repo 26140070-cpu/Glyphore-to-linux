@@ -113,10 +113,10 @@ internal static class SceneFile
             layer.TitleText = string.IsNullOrEmpty(layer.TitleText) ? "GLYPHORÉ" : layer.TitleText[..Math.Min(layer.TitleText.Length, 512)];
             if (loadedFormatVersion < 6 && layer.Effect.Equals("ASCII Title", StringComparison.OrdinalIgnoreCase))
             {
-                // v5 used Preset for what the Title Studio called a “prefab”. In v6 the
-                // two concepts are separate: TitlePrefab defines letter construction, while
-                // Preset is a visual/animation style. Existing scenes keep their numeric
-                // Values, so mapping Preset to Custom is lossless.
+                
+                
+                
+                
                 layer.TitlePrefab = layer.Preset switch
                 {
                     "Neon Blocks" => "Classic Block",
@@ -168,9 +168,9 @@ internal static class SceneFile
             }
 
             layer.Values ??= new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase);
-            // Preserve every finite numeric setting from the scene. The renderer simply ignores
-            // unknown keys, while discarding them here made customized/future parameters vanish
-            // after a save/load round-trip. Keep sane key/count bounds for malformed files.
+            
+            
+            
             layer.Values = layer.Values
                 .Where(pair => !string.IsNullOrWhiteSpace(pair.Key) && pair.Key.Length <= 128 && double.IsFinite(pair.Value))
                 .Take(4096)

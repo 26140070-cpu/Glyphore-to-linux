@@ -10,9 +10,9 @@ internal sealed partial class MainForm
         bool Bold,
         bool Italic);
 
-    // A prefab is a text-art font: it transforms the entered text into a multi-line
-    // ASCII/Unicode banner (FIGlet-style concept). Palette, glow and animation remain
-    // completely separate in the Visual Style/Preset selector.
+    
+    
+    
     private static readonly TitlePrefabDefinition[] TitlePrefabs =
         [new("System Font", "Consolas", true, false),
          .. AsciiTitlePrefabGenerator.Names.Select(name => new TitlePrefabDefinition(name, "Consolas", false, false))];
@@ -44,9 +44,9 @@ internal sealed partial class MainForm
         GlyphCheckBox italic = shell.Italic;
         GlyphCheckBox animate = shell.Animate;
 
-        // LIVE PREVIEW / CONTROLS ------------------------------------------------------------
-        // The preview and the parameter editor share a real splitter. This keeps both regions
-        // usable at every window size and makes the visible preview area exactly the GL viewport.
+        
+        
+        
         var studioSplit = new SplitContainer
         {
             Dock = DockStyle.Fill,
@@ -115,9 +115,9 @@ internal sealed partial class MainForm
         previewHost.Controls.Add(titlePreview);
         previewLayout.Controls.Add(previewHost, 0, 0);
 
-        // Build the isolated preview scene before wiring any callbacks that can refresh it.
-        // This is important for C# definite-assignment analysis as well as runtime ordering:
-        // every event handler below can safely assume that the preview already exists.
+        
+        
+        
         var previewSettings = _settings.Clone();
         previewSettings.Effect = "ASCII Title";
         previewSettings.Preset = "Custom";
@@ -131,9 +131,9 @@ internal sealed partial class MainForm
         var previewLayer = previewScene.Layers[0];
         previewLayer.Effect = "ASCII Title";
         previewLayer.Name = "Title preview";
-        // Masks belong to the real title layer, not to an isolated editor copy. Sharing the
-        // same mask objects makes docked and detached Title Studio previews another viewport
-        // over the exact same editor state.
+        
+        
+        
         previewLayer.Masks = activeTitle?.Masks ?? [];
         titlePreview.TargetFps = previewScene.Fps;
         titlePreview.Settings = previewSettings;
@@ -146,9 +146,9 @@ internal sealed partial class MainForm
             var owner = _scene.Layers.FirstOrDefault(layer => layer.Masks.Any(candidate => candidate.Id == mask.Id));
             if (owner is null) return;
 
-            // The detached/docked Title Studio preview uses its own lightweight preview layer.
-            // The mask objects are shared, so touch the real owner too while dragging: this makes
-            // the main preview update in the same frame instead of only after MouseUp.
+            
+            
+            
             owner.Touch();
             if (_activeMaskId == mask.Id)
             {
@@ -254,8 +254,8 @@ internal sealed partial class MainForm
         });
         bgButton.Margin = new Padding(0, 0, 8, 0);
 
-        // Build previewMode before any callback can detach the preview. DetachPreview
-        // reads this control to mirror the current framing mode in the detached window.
+        
+        
         var previewMode = new SafeComboBox
         {
             Width = 104,
@@ -362,7 +362,7 @@ internal sealed partial class MainForm
             ? "Moves the same live OpenGL preview into an independent top-level window. The docked preview area collapses to give the title controls more room."
             : "Mueve la misma preview OpenGL en directo a una ventana top-level independiente. El área acoplada se contrae para dejar más espacio a los ajustes del título.");
 
-        // TITLE CONTROLS ---------------------------------------------------------------------
+        
         var controlsGroup = new ThemedGroupBox
         {
             Text = Localization.English ? "Title controls" : "Ajustes del título",
@@ -991,8 +991,8 @@ internal sealed partial class MainForm
                 if (closingDetachedPreview) return;
                 if (dialog.IsDisposed || !dialog.IsHandleCreated) return;
 
-                // User-close means “dock back”, but application shutdown must still be able to
-                // destroy the detached HWND. Title Studio sets closingDetachedPreview for that path.
+                
+                
                 e.Cancel = true;
                 dialog.BeginInvoke((Action)DockPreview);
             };
@@ -1004,8 +1004,8 @@ internal sealed partial class MainForm
                 detachedPreviewMode = null;
             };
 
-            // Deliberately ownerless and modeless: its HWND/taskbar/Alt+Tab/minimize state are
-            // independent from Main and Title Studio while still living in the same process.
+            
+            
             window.Show();
             window.BringToFront();
             window.Activate();
@@ -1089,8 +1089,8 @@ internal sealed partial class MainForm
             applyingDialog = true;
             try
             {
-                // Only System Font is backed by an installed Windows font. FIGlet prefabs are
-                // generated by Glyphoré and do not depend on the Base font selector.
+                
+                
                 if (definition.Name == "System Font")
                 {
                     if (!font.Items.Contains(definition.Font)) font.Items.Add(definition.Font);
@@ -1137,8 +1137,8 @@ internal sealed partial class MainForm
 
                 foreach (var syncColor in colorSynchronizers) syncColor();
 
-                // A preset whose visible identity is temporal should behave as advertised the
-                // moment it is selected. The user can still freeze it afterwards with Animate.
+                
+                
                 if (CurrentStyleUsesAnimation()) animate.Checked = true;
             }
             finally { applyingDialog = false; }
@@ -1194,7 +1194,7 @@ internal sealed partial class MainForm
             if (animate.Checked) titlePreview.RestartAnimation();
         }
 
-        // ACTIONS ----------------------------------------------------------------------------
+        
         SceneEffectLayer CommitToScene(bool applyToActive)
         {
             string selectedFont = SelectedFont();
@@ -1339,8 +1339,8 @@ internal sealed partial class MainForm
         discordCopy.Margin = Padding.Empty;
         copyActions.Controls.Add(discordCopy);
 
-        // Assigned before the callbacks are created so UpdateApplyState can be referenced
-        // from either button without tripping C# definite-assignment analysis.
+        
+        
         Button apply = null!;
 
         var add = Btn(Localization.English ? "Add to scene" : "Añadir a escena", (_, _) =>
@@ -1413,8 +1413,8 @@ internal sealed partial class MainForm
 
         dialog.Activated += (_, _) =>
         {
-            // The main window remains interactive while Studio is open. If the user selects
-            // a mask there, make this preview (including a detached preview) edit that same mask.
+            
+            
             if (_scene.ActiveLayer is { Effect: "ASCII Title" } selectedTitle)
             {
                 activeTitle = selectedTitle;
@@ -1450,8 +1450,8 @@ internal sealed partial class MainForm
         };
         dialog.Shown += (_, _) =>
         {
-            // SplitContainer validates minima against its *current* size, so apply them only
-            // after the dialog has completed its first real layout.
+            
+            
             studioSplit.Panel1MinSize = 0;
             studioSplit.Panel2MinSize = 0;
             int maximum = studioSplit.Height - controlsPanelMin - studioSplit.SplitterWidth;

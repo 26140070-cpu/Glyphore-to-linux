@@ -84,9 +84,9 @@ internal sealed partial class MainForm
         Add(Localization.English ? "Star" : "Estrella", SceneMaskType.Star);
         menu.Closed += (_, _) =>
         {
-            // ToolStripDropDown can still be finishing its item-click/visibility path
-            // after Closed is raised. Disposing synchronously here causes WinForms to
-            // touch an already-disposed ContextMenuStrip (ObjectDisposedException).
+            
+            
+            
             try
             {
                 BeginInvoke((Action)(() =>
@@ -96,7 +96,7 @@ internal sealed partial class MainForm
             }
             catch (InvalidOperationException)
             {
-                // The form is already tearing down; no further UI work will use the menu.
+                
                 if (!menu.IsDisposed) menu.Dispose();
             }
         };

@@ -96,9 +96,9 @@ internal sealed partial class MainForm
                 }
             }
 
-            // Recovery is deliberately conservative: only assign provenance when a customized
-            // layer still strongly resembles one unique preset. This recovers legacy v7 scenes
-            // such as a modified Meteor Rush without ever rewriting the actual saved parameters.
+            
+            
+            
             if (bestName is not null && bestMatches >= 4 && bestScore >= 0.65 && bestScore - secondScore >= 0.12)
                 layer.SourcePreset = bestName;
         }

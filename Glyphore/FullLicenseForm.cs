@@ -75,10 +75,10 @@ internal sealed class FullLicenseForm : GlyphoreWindow
             Margin = Padding.Empty
         }, 0, 1);
 
-        // License text deliberately uses the RichEdit control's native scrolling. It is less
-        // decorative than a custom scrollbar, but it is the most reliable path for long legal
-        // documents: wheel, thumb drag, Page Up/Down, arrows and resize all share one native
-        // scroll range, while the text remains selectable/copyable and strictly read-only.
+        
+        
+        
+        
         var viewerFrame = new Panel
         {
             Dock = DockStyle.Fill,
@@ -135,8 +135,8 @@ internal sealed class FullLicenseForm : GlyphoreWindow
     }
 }
 
-/// <summary>
-/// Read-only legal-text viewer. The operating system owns the scroll range and scrollbar so
-/// every line remains reachable even after resize/DPI changes. Home/End intentionally mean
-/// document start/end in this viewer; selection variants keep the RichEdit defaults.
-/// </summary>
+
+
+
+
+

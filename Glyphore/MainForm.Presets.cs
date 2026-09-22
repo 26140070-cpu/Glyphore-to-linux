@@ -26,8 +26,8 @@ internal sealed partial class MainForm
             _applying = wasApplying;
         }
 
-        // Apply exactly once after the combo has been rebuilt. Previously SelectedIndex
-        // could apply a preset during the rebuild and the method applied it a second time.
+        
+        
         if (!string.IsNullOrEmpty(firstPreset))
             ApplyPreset(firstPreset);
         else
@@ -66,8 +66,8 @@ internal sealed partial class MainForm
                 }
             }
 
-            // Resolve palette data in the editor state only. The active layer is updated once,
-            // atomically, by Push() below instead of receiving a palette-only intermediate state.
+            
+            
             if (_data.Palettes.TryGetValue(_settings.PaletteName, out var stops))
                 _settings.PaletteStops = new List<string>(stops);
 

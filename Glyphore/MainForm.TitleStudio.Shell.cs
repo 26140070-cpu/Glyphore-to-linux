@@ -60,7 +60,7 @@ internal sealed partial class MainForm
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 62));
         dialog.ContentPanel.Controls.Add(root);
 
-        // TEXT -------------------------------------------------------------------------------
+        
         var textGroup = new ThemedGroupBox
         {
             Text = Localization.English ? "Text" : "Texto",
@@ -82,7 +82,7 @@ internal sealed partial class MainForm
         textGroup.Controls.Add(textHost);
         root.Controls.Add(textGroup, 0, 0);
 
-        // SOURCE / STYLE ---------------------------------------------------------------------
+        
         var selectorGroup = new ThemedGroupBox
         {
             Text = Localization.English ? "Source & style" : "Fuente y estilo",

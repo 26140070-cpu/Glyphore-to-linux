@@ -80,8 +80,8 @@ internal sealed partial class GlPreviewControl : Control
     private volatile bool _paused;
     private double _pauseAt;
     private double _pausedAccum;
-    // Preview clocks are integrated instead of recomputed as elapsed*slider.
-    // This prevents live speed/time-frequency edits from teleporting stateful-looking effects.
+    
+    
     private double _animationTime;
     private double _temporalTime;
     private double _lastTimelineTime;
@@ -211,8 +211,8 @@ internal sealed partial class GlPreviewControl : Control
         {
             _settings = value;
             SyncAtlasIfNeeded();
-            // While running, the precision scheduler owns repaint cadence.
-            // This prevents slider ValueChanged events from bypassing TargetFps.
+            
+            
             if (_paused) Invalidate();
         }
     }

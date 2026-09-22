@@ -98,9 +98,9 @@ internal sealed class GlyphoreScene
         out int commonRevision,
         out int layerRevision)
     {
-        // Always capture the settings and the revisions under the same locks. Without
-        // this, the render thread can build an old snapshot, observe a newer revision
-        // afterwards, and cache the old effect forever as if it were current.
+        
+        
+        
         lock (SyncRoot)
         lock (layer.SyncRoot)
         {

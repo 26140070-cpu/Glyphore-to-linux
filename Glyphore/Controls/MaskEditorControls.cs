@@ -139,7 +139,7 @@ internal sealed class MaskSliderField : UserControl
         if (double.TryParse(raw, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double parsed) && double.IsFinite(parsed))
         {
             _textDirty = false;
-            // The textbox is exact; only the engine's meaningful/safe range is clamped.
+            
             SetValue(parsed, notify: true, updateText: hardCommit || parsed < _minimum || parsed > _maximum);
             return;
         }

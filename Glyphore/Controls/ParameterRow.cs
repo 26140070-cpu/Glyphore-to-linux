@@ -96,8 +96,8 @@ internal sealed class ParameterRow : UserControl
             {
                 if (_sync) return;
 
-                // A slider interaction is newer than any text that was waiting to be committed.
-                // Cancel it and make the textbox reflect the slider immediately.
+                
+                
                 CancelPendingText();
                 double v = description.Min + (_track.Value / 1000.0) * (description.Max - description.Min);
                 SetInternal(v, true, updateText: true);
@@ -165,8 +165,8 @@ internal sealed class ParameterRow : UserControl
             }
             else
             {
-                // Slider Min/Max are a comfortable editing range, not a hard limit.
-                // Typed values may exceed it; the thumb simply stays pinned to the nearest edge.
+                
+                
                 Value = value;
                 double sliderValue = Math.Clamp(value, _desc.Min, _desc.Max);
                 if (_track is not null)
@@ -206,15 +206,15 @@ internal sealed class ParameterRow : UserControl
         {
             bool changed = value != Value;
             _textDirty = false;
-            // During debounced live typing, preserve exactly what the user typed so the caret
-            // does not jump. Enter/Leave normalize the display. A later slider interaction
-            // always forces the textbox to the slider value.
+            
+            
+            
             SetInternal(value, changed, updateText: hardCommit);
             return;
         }
 
-        // Partial input such as "-", "." or "1e" is allowed while typing.
-        // Only reject it when the user explicitly commits or leaves the field.
+        
+        
         if (!hardCommit) return;
 
         _textDirty = false;

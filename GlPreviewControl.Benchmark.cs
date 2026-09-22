@@ -42,9 +42,10 @@ internal sealed partial class GlPreviewControl
             }
             else
             {
-                double animationTime = sourceTime * _settings.Get("speed");
-                RenderIntensity(_settings, (float)animationTime, (float)(animationTime * _settings.Get("time_freq")));
-                outputSettings = _settings;
+                var settings = _settings ?? throw new InvalidOperationException("Preview settings are not initialized.");
+                double animationTime = sourceTime * settings.Get("speed");
+                RenderIntensity(settings, (float)animationTime, (float)(animationTime * settings.Get("time_freq")));
+                outputSettings = settings;
             }
 
             NativeGl.BindFramebuffer(NativeGl.GL_FRAMEBUFFER, 0);
@@ -53,7 +54,8 @@ internal sealed partial class GlPreviewControl
             NativeGl.Uniform2i(UniformLocation(_previewProgram, "u_grid"), Math.Max(2, outputSettings.Width), Math.Max(2, outputSettings.Height));
             U2(_previewProgram, "u_view", Math.Max(1, (int)Bounds.Width), Math.Max(1, (int)Bounds.Height));
             Ui(_previewProgram, "u_preview_mode", (int)PreviewViewMode);
-            U1(_previewProgram, "u_preview_zoom", (float)Math.Clamp(PreviewZoom * _scene.Transform.Scale, .1, 4.0));
+            double sceneScale = _scene?.Transform.Scale ?? 1.0;
+            U1(_previewProgram, "u_preview_zoom", (float)Math.Clamp(PreviewZoom * sceneScale, .1, 4.0));
             Ui(_previewProgram, "u_output_transparent", 0);
             U1(_previewProgram, "u_cell_aspect", 0.55f);
             SetPreviewGlyphUniforms(outputSettings, useCompositedColor, useCompositedGlyph);

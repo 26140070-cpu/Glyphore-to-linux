@@ -93,8 +93,8 @@ internal sealed partial class GlPreviewControl
             NativeGl.ReadPixels(0, 0, width, height, NativeGl.GL_RGBA, NativeGl.GL_UNSIGNED_BYTE, (IntPtr)p);
         NativeGl.BindFramebuffer(NativeGl.GL_FRAMEBUFFER, 0);
 
-        // glReadPixels is bottom-up. Flip in place so export needs one frame buffer rather than
-        // simultaneously retaining bottom-up and top-down copies (another ~8 MiB at 1080p).
+        
+        
         int stride = width * 4;
         byte[] row = new byte[stride];
         for (int y = 0; y < height / 2; y++)

@@ -17,8 +17,8 @@ internal enum SceneMaskType
     Diamond = 6,
     Ring = 7,
     Triangle = 8,
-    // Kept at value 9 for scene compatibility. The editor now exposes this as a
-    // configurable regular polygon instead of a hard-coded hexagon.
+    
+    
     Hexagon = 9,
     Star = 10
 }

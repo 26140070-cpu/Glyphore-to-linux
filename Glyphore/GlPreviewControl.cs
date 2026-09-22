@@ -11,11 +11,11 @@ using SkiaSharp;
 
 namespace Glyphore;
 
-// Avalonia/Linux port of GlPreviewControl (from AsciiForge.Linux + Glyphore shaders/scene).
-//
-// Context: OpenGlControlBase owns the real GL context. Captures/benchmarks that need a
-// current context are queued and resolved inside OnOpenGlRender.
-// Glyph atlas: SkiaSharp (cross-platform), not System.Drawing/GDI+.
+
+
+
+
+
 public sealed class GlPreviewControl : OpenGlControlBase
 {
     private uint _previewProgram;
@@ -113,10 +113,10 @@ public sealed class GlPreviewControl : OpenGlControlBase
         RequestNextFrameRendering();
     }
 
-    /// <summary>
-    /// ASCII snapshot for export/clipboard. Uses last GPU capture when available;
-    /// otherwise CharacterRenderer (also used when GL is not ready).
-    /// </summary>
+    
+    
+    
+    
     public string RenderText()
     {
         SyncSettingsFromScene();
@@ -286,7 +286,7 @@ public sealed class GlPreviewControl : OpenGlControlBase
         }
         catch
         {
-            // Keep previous / CPU fallback for RenderText().
+            
         }
 
         while (_captureQueue.Count > 0)
@@ -319,7 +319,7 @@ public sealed class GlPreviewControl : OpenGlControlBase
         NativeGl.UseProgram(_previewProgram);
         NativeGl.Uniform2i(UniformLocation(_previewProgram, "u_grid"), Math.Max(2, _settings.Width), Math.Max(2, _settings.Height));
         U2(_previewProgram, "u_view", (float)Bounds.Width, (float)Bounds.Height);
-        Ui(_previewProgram, "u_preview_mode", 0); // Fit
+        Ui(_previewProgram, "u_preview_mode", 0); 
         U1(_previewProgram, "u_preview_zoom", 1f);
         U1(_previewProgram, "u_cell_aspect", 0.55f);
         Ui(_previewProgram, "u_output_transparent", 0);

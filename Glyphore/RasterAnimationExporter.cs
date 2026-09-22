@@ -171,8 +171,8 @@ internal static class RasterAnimationExporter
                 reusablePngRgba = frame.Rgba32;
                 SaveRgbaPng(Path.Combine(directory, $"frame_{i:000000}.png"), frame);
                 detailedProgress?.Invoke(new RasterExportProgress(RasterExportStage.WritingFrames, i + 1, frameCount));
-                // Give WinForms a scheduling point every frame. A 4K/1080p capture can itself take
-                // several milliseconds, so waiting four frames is enough to make the window look hung.
+                
+                
                 await Task.Yield();
             }
             return;
@@ -195,9 +195,9 @@ internal static class RasterAnimationExporter
 
         using var process = Process.Start(psi) ?? throw new InvalidOperationException("No se pudo iniciar FFmpeg.");
         Task<string> stderrTask = process.StandardError.ReadToEndAsync();
-        // Drain FFmpeg's progress pipe concurrently. The frame-writing callback already reports
-        // user-visible progress on the UI thread; draining stdout prevents the encoder from
-        // blocking if its progress pipe fills.
+        
+        
+        
         Task stdoutTask = Task.Run(async () =>
         {
             while (await process.StandardOutput.ReadLineAsync().ConfigureAwait(false) is not null) { }
@@ -330,10 +330,10 @@ internal static class RasterAnimationExporter
                 {
                     int si = src + x * 4;
                     int di = x * 4;
-                    row[di] = frame.Rgba32[si + 2];     // B
-                    row[di + 1] = frame.Rgba32[si + 1]; // G
-                    row[di + 2] = frame.Rgba32[si];     // R
-                    row[di + 3] = frame.Rgba32[si + 3]; // A
+                    row[di] = frame.Rgba32[si + 2];     
+                    row[di + 1] = frame.Rgba32[si + 1]; 
+                    row[di + 2] = frame.Rgba32[si];     
+                    row[di + 3] = frame.Rgba32[si + 3]; 
                 }
                 Marshal.Copy(row, 0, data.Scan0 + y * data.Stride, row.Length);
             }

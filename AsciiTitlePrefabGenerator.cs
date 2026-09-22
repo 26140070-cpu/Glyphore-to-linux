@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Glyphore;
 
-/// <summary>
-/// FIGlet-backed title font renderer. A title prefab is only the geometry/font used to
-/// transform input text into multi-line character art. Palette, glow, outline, wave,
-/// shimmer and all other visual styling stay completely independent.
-/// </summary>
+
+
+
+
+
 internal static class AsciiTitlePrefabGenerator
 {
     private const string Prefix = "FIGlet · ";
@@ -18,7 +18,7 @@ internal static class AsciiTitlePrefabGenerator
     private static readonly Dictionary<(string Font, int Rune), bool> RuneSupportCache = new();
     private static readonly object RuneSupportLock = new();
 
-    // Compatibility for scenes created during the early custom-prefab experiments.
+    
     private static readonly Dictionary<string, string> LegacyAliases = new(StringComparer.OrdinalIgnoreCase)
     {
         ["Classic Block"] = "Block",
@@ -39,9 +39,9 @@ internal static class AsciiTitlePrefabGenerator
         ["FIGlet · Double Line"] = "Double"
     };
 
-    // The dropdown is built from the actual Figgle font bundle (250+ fonts), rather than
-    // a small set of fake effects. Common fonts are promoted to the top, then the rest
-    // are listed alphabetically.
+    
+    
+    
     public static string[] Names
     {
         get
@@ -85,18 +85,18 @@ internal static class AsciiTitlePrefabGenerator
             string rendered;
             if (spacing == 0)
             {
-                // Compatibility path: zero tracking is byte-for-byte the same rendering route
-                // Glyphoré used before title_letter_spacing existed, including FIGfont fitting
-                // and smushing rules chosen by Figgle.
+                
+                
+                
                 string prepared = PrepareInput(font, resolvedName, sourceLines[i]);
                 rendered = RenderPrepared(font, prepared);
             }
             else
             {
-                // Figgle 0.6.6 exposes Render(string), but no public render option that adds a
-                // deterministic amount of tracking while preserving each FIGcharacter. Compose
-                // rendered input graphemes instead: blank columns are inserted only BETWEEN
-                // complete FIGcharacters, never between the columns that form one character.
+                
+                
+                
+                
                 rendered = RenderLineWithSpacing(font, resolvedName, sourceLines[i], spacing);
             }
 
@@ -115,7 +115,7 @@ internal static class AsciiTitlePrefabGenerator
         }
         catch
         {
-            // Last-resort path: never turn Latin accented letters into question marks.
+            
             return font.Render(FoldToPortableAscii(prepared));
         }
     }
@@ -166,9 +166,9 @@ internal static class AsciiTitlePrefabGenerator
         string rendered = RenderPrepared(font, prepared).Replace("\r", string.Empty);
         string[] rows = rendered.Split('\n');
 
-        // font.Render commonly terminates with a newline. Remove only those synthetic final
-        // empty rows. Keep each FIGcharacter's horizontal metrics intact: tracking is extra
-        // blank columns BETWEEN complete rendered blocks, never a rewrite of their columns.
+        
+        
+        
         int rowCount = rows.Length;
         while (rowCount > 1 && rows[rowCount - 1].Length == 0)
             rowCount--;
@@ -181,11 +181,11 @@ internal static class AsciiTitlePrefabGenerator
 
     private readonly record struct FigCharacterBlock(string[] Rows, int Width);
 
-    /// <summary>
-    /// Renders a generated FIGlet prefab as geometry, then fills every occupied cell with
-    /// glyphs from the selected character set. FIGlet's own implementation characters never
-    /// leak into the visible title.
-    /// </summary>
+    
+    
+    
+    
+    
     public static string GenerateWithCharset(string? text, string? prefab, string? charset, int letterSpacing = 0)
     {
         string geometry = Generate(text, prefab, letterSpacing);
@@ -222,8 +222,8 @@ internal static class AsciiTitlePrefabGenerator
                 continue;
             }
 
-            // Stable spatial mapping gives multi-glyph ramps some texture while preserving the
-            // hard invariant that every visible glyph belongs to the selected character set.
+            
+            
             int hash = unchecked((rune.Value * 397) ^ (column * 31) ^ (row * 131));
             int index = (hash & int.MaxValue) % ramp.Count;
             sb.Append(ramp[index].ToString());
@@ -232,10 +232,10 @@ internal static class AsciiTitlePrefabGenerator
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Produces a conservative Discord payload: fenced monospace text plus an ASCII-only
-    /// fallback for box/block glyphs that Discord fonts may not contain consistently.
-    /// </summary>
+    
+    
+    
+    
     public static string ToDiscordSafeAscii(string text)
     {
         var sb = new StringBuilder(text.Length);
@@ -248,11 +248,11 @@ internal static class AsciiTitlePrefabGenerator
 
             string replacement = v switch
             {
-                // Blocks and shades
+                
                 >= 0x2580 and <= 0x259F => "#",
-                // Box drawing: horizontal, vertical, corners/junctions
+                
                 >= 0x2500 and <= 0x257F => BoxDrawingFallback(v),
-                // Common arrows/decorative glyphs
+                
                 0x00B7 or 0x2022 or 0x2219 => ".",
                 _ => FoldRuneToAscii(rune)
             };
@@ -263,9 +263,9 @@ internal static class AsciiTitlePrefabGenerator
 
     private static string BoxDrawingFallback(int value)
     {
-        // Horizontal-only families.
+        
         if (value is 0x2500 or 0x2501 or 0x254C or 0x254D or 0x2550 or 0x2574 or 0x2576) return "-";
-        // Vertical-only families.
+        
         if (value is 0x2502 or 0x2503 or 0x254E or 0x254F or 0x2551 or 0x2575 or 0x2577) return "|";
         return "+";
     }
@@ -274,11 +274,11 @@ internal static class AsciiTitlePrefabGenerator
     {
         var map = new Dictionary<string, FiggleFont>(StringComparer.OrdinalIgnoreCase);
 
-        // Figgle 0.6.6 keeps the mega-font bundle in the separate Figgle.Fonts assembly.
-        // Do not bind to the generated FiggleFonts type at compile time: its generated
-        // namespace/type surface can vary between package builds. Discover it from the
-        // referenced assembly instead, while still strongly typing the actual FiggleFont
-        // instances returned by the bundle.
+        
+        
+        
+        
+        
         Assembly fontsAssembly = LoadFiggleFontsAssembly();
         Type? type = GetLoadableTypes(fontsAssembly)
             .FirstOrDefault(t => t.Name.Equals("FiggleFonts", StringComparison.Ordinal));
@@ -297,7 +297,7 @@ internal static class AsciiTitlePrefabGenerator
             }
             catch
             {
-                // One broken font accessor must not make the complete prefab catalog unusable.
+                
             }
         }
 
@@ -311,7 +311,7 @@ internal static class AsciiTitlePrefabGenerator
             }
             catch
             {
-                // Same isolation policy as property accessors above.
+                
             }
         }
 
@@ -365,7 +365,7 @@ internal static class AsciiTitlePrefabGenerator
             return exact;
         }
 
-        // Accept compact member-style names too (ANSIShadow -> ANSI Shadow).
+        
         string compact = Compact(requested);
         foreach (var pair in map)
         {

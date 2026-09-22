@@ -12,8 +12,8 @@ internal sealed class SceneEffectLayer
     public int Seed { get; set; } = 1337;
     public string Effect { get; set; } = "Plasma";
     public string Preset { get; set; } = "Classic Plasma";
-    // Remembers which preset a customized layer started from. Preset may become Custom,
-    // but SourcePreset survives save/load so the editor never loses that reference.
+    
+    
     public string SourcePreset { get; set; } = string.Empty;
     public string ShapeMode { get; set; } = "Square";
     public string CharsetName { get; set; } = "Classic";
@@ -23,8 +23,8 @@ internal sealed class SceneEffectLayer
     public Dictionary<string, double> Values { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public List<SceneLayerMask> Masks { get; set; } = [];
 
-    // ASCII Title Studio metadata. Numeric styling/animation controls live in Values so they
-    // participate in presets and the ordinary parameter pipeline.
+    
+    
     public string TitleText { get; set; } = "GLYPHORÉ";
     public string TitlePrefab { get; set; } = "System Font";
     public string TitleFont { get; set; } = "Consolas";
@@ -61,13 +61,13 @@ internal sealed class SceneEffectLayer
 
     public void CaptureFrom(EffectSettings settings)
     {
-        // The OpenGL scheduler reads layer state from a different thread. Keep the
-        // render snapshot atomic so a palette-only update cannot be paired with stale
-        // effect/preset values and then cached under the new revision.
+        
+        
+        
         var values = new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase);
         foreach (var pair in settings.V)
         {
-            // Gamma belongs to the final character mapping, not to one procedural layer.
+            
             if (!pair.Key.Equals("gamma", StringComparison.OrdinalIgnoreCase))
                 values[pair.Key] = pair.Value;
         }

@@ -4,8 +4,8 @@ internal readonly record struct FloatUniformBinding(string SettingKey, string Un
 
 internal static class ShaderUniformBindings
 {
-    // One source of truth for effect-specific setting -> GLSL uniform mappings.
-    // Keeping each pair together avoids index drift between parallel arrays.
+    
+    
     public static readonly FloatUniformBinding[] EffectSpecific =
     [
         new("fire_height", "u_fire_h"),

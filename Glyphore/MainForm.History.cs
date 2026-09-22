@@ -19,7 +19,7 @@ internal sealed partial class MainForm
         _historyIndex = -1;
         _lastHistoryWriteUtc = DateTime.MinValue;
         RecordHistory(force: true);
-        // The first user edit must create a second entry instead of replacing the initial state.
+        
         _lastHistoryWriteUtc = DateTime.MinValue;
         UpdateHistoryButtons();
     }

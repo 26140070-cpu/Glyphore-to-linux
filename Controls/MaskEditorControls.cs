@@ -8,97 +8,50 @@ internal sealed class MaskListEntry
     public override string ToString() => $"   ↳ ◇ {Mask.Name}";
 }
 
-internal sealed class MaskSliderField : UserControl
+internal sealed class MaskSliderField : SafeGeometryUserControl
 {
     private const int SliderSteps = 100_000;
     private readonly Label _label = new();
     private readonly Label _description = new();
     private readonly GlyphSlider _slider = new();
     private readonly TextBox _text = new();
-    private readonly Timer _commitTimer = new() { Interval = 250 };
+    private readonly System.Windows.Forms.Timer _commitTimer = new() { Interval = 250 };
     private readonly double _minimum;
     private readonly double _maximum;
     private readonly int _digits;
     private bool _sync;
     private bool _textDirty;
-    private int _logicalWidth = 390;
-    private int _logicalHeight = 76;
-
-    public new int Width
-    {
-        get
-        {
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return _logicalWidth;
-            try { return base.Width; } catch { return _logicalWidth; }
-        }
-        set
-        {
-            _logicalWidth = Math.Max(0, value);
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return;
-            try { base.Width = _logicalWidth; } catch (Exception ex) { LinuxDiagnostics.Exception($"{GetType().Name}.Width", ex); }
-        }
-    }
-
-    public new int Height
-    {
-        get
-        {
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return _logicalHeight;
-            try { return base.Height; } catch { return _logicalHeight; }
-        }
-        set
-        {
-            _logicalHeight = Math.Max(0, value);
-            if (!LinuxControlInitialization.IsHandleCreated(this)) return;
-            try { base.Height = _logicalHeight; } catch (Exception ex) { LinuxDiagnostics.Exception($"{GetType().Name}.Height", ex); }
-        }
-    }
-
-    private void ApplyLogicalSize(object? sender, EventArgs e)
-    {
-        try { base.Size = new Size(_logicalWidth, _logicalHeight); }
-        catch (Exception ex) { LinuxDiagnostics.Exception($"{GetType().Name}.HandleCreated.Size", ex); }
-    }
-
-    protected override Size DefaultSize => new(390, 76);
 
     public event EventHandler? ValueChanged;
     public double Value { get; private set; }
 
     public MaskSliderField(string label, double minimum, double maximum, double value, int digits)
     {
-        HandleCreated += ApplyLogicalSize;
         _minimum = minimum;
         _maximum = maximum;
         _digits = digits;
-        LinuxControlInitialization.Defer(this, () => BackColor = Theme.Panel, nameof(BackColor));
+        Size = new Size(Width, 76);
+        BackColor = Theme.Panel;
 
-        LinuxControlInitialization.Defer(_label, () =>
-        {
-            _label.Text = label;
-            _label.ForeColor = Theme.Text;
-            _label.TextAlign = ContentAlignment.MiddleLeft;
-            _label.SetBounds(0, 0, 180, 18);
-        }, "configure");
+        _label.Text = label;
+        _label.ForeColor = Theme.Text;
+        _label.TextAlign = ContentAlignment.MiddleLeft;
+        _label.SetBounds(0, 0, 180, 18);
 
-        LinuxControlInitialization.Defer(_description, () =>
-        {
-            _description.ForeColor = Theme.Muted;
-            _description.TextAlign = ContentAlignment.MiddleLeft;
-            _description.AutoEllipsis = false;
-            _description.SetBounds(0, 17, 180, 29);
-        }, "configure");
+        _description.ForeColor = Theme.Muted;
+        _description.TextAlign = ContentAlignment.MiddleLeft;
+        _description.AutoEllipsis = false;
+        _description.SetBounds(0, 17, 180, 29);
 
         _slider.Minimum = 0;
         _slider.Maximum = SliderSteps;
         _slider.MouseWheelAdjustsValue = false;
-        LinuxControlInitialization.Defer(_slider, () => _slider.SetBounds(0, 47, 125, 27), "SetBounds");
+        _slider.SetBounds(0, 47, 125, 27);
 
-        LinuxControlInitialization.Defer(_text, () => _text.SetBounds(132, 49, 62, 23), "SetBounds");
-        LinuxControlInitialization.Defer(_text, () => Theme.TextBox(_text), "Theme.TextBox");
+        _text.SetBounds(132, 49, 62, 23);
+        Theme.TextBox(_text);
 
         Controls.AddRange([_label, _description, _slider, _text]);
-        LinuxControlInitialization.Defer(this, LayoutChildren, "LayoutChildren");
 
         _slider.ValueChanged += (_, _) =>
         {
@@ -186,13 +139,16 @@ internal sealed class MaskSliderField : UserControl
         if (double.TryParse(raw, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double parsed) && double.IsFinite(parsed))
         {
             _textDirty = false;
-
+            
             SetValue(parsed, notify: true, updateText: hardCommit || parsed < _minimum || parsed > _maximum);
             return;
         }
         if (!hardCommit) return;
         _textDirty = false;
-        Console.Error.Write("\a");
+        if (OperatingSystem.IsWindows())
+        {
+            System.Media.SystemSounds.Beep.Play();
+        }
         SetValue(Value, notify: false, updateText: true);
     }
 

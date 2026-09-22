@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Glyphore;
 
-// Avalonia/Linux NativeGl: context comes from OpenGlControlBase; procs resolve via GetProcAddress.
-// WinForms WGL/user32 entry points are Obsolete stubs that throw so retained WinForms sources
-// can stay in the tree without being required for the Avalonia build.
+
+
+
 internal static class NativeGl
 {
     public const uint GL_VERTEX_SHADER = 0x8B31;
@@ -54,8 +54,8 @@ internal static class NativeGl
         public uint dwLayerMask, dwVisibleMask, dwDamageMask;
     }
 
-    // OpenGL follows the C ABI on Linux (GLX/EGL). Cdecl is also ABI-compatible
-    // with the Windows OpenGL entry points on supported 64-bit runtimes.
+    
+    
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate uint GlCreateShader(uint shaderType);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public unsafe delegate void GlShaderSource(uint shader, int count, byte** strings, int* lengths);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate void GlCompileShader(uint shader);
@@ -148,10 +148,10 @@ internal static class NativeGl
     public static GlBlendFunc BlendFunc = null!;
     public static GlBlendFuncSeparate BlendFuncSeparate = null!;
 
-    /// <summary>
-    /// Loads the GL function table using the platform context's GetProcAddress
-    /// (Avalonia: GlInterface.GetProcAddress → glX/egl/wgl).
-    /// </summary>
+    
+    
+    
+    
     public static void Load(Func<string, IntPtr> getProcAddress)
     {
         CreateShader = LoadProc<GlCreateShader>(getProcAddress, "glCreateShader");
@@ -250,7 +250,7 @@ internal static class NativeGl
         return shader;
     }
 
-    // --- WinForms/WGL stubs (retained source compatibility; not used on Avalonia) ---
+    
 
     [Obsolete("WGL is not available on Avalonia/Linux. Use OpenGlControlBase."), EditorBrowsable(EditorBrowsableState.Never)]
     public static PIXELFORMATDESCRIPTOR DefaultPfd() =>

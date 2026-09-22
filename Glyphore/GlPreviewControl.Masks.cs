@@ -83,8 +83,8 @@ internal sealed partial class GlPreviewControl
         }
 
         mask.Clamp();
-        // Render settings are cached by layer revision. Touch during the drag so the renderer
-        // sees the new mask geometry immediately instead of waiting for MouseUp/commit.
+        
+        
         _maskDragLayer.Touch();
         MaskEdited?.Invoke(_maskDragLayer, mask, false);
         RequestLiveMaskRepaint();
@@ -171,9 +171,9 @@ internal sealed partial class GlPreviewControl
     {
         Invalidate();
 
-        // Continuous mouse capture can flood the WinForms queue with MouseMove messages and
-        // starve WM_PAINT. Force an immediate frame, but cap it so a large OpenGL preview does
-        // not render hundreds of times per second while resizing a mask.
+        
+        
+        
         long now = System.Diagnostics.Stopwatch.GetTimestamp();
         int liveFps = Math.Clamp(TargetFps, 30, 60);
         long period = Math.Max(1L, System.Diagnostics.Stopwatch.Frequency / liveFps);
@@ -242,8 +242,8 @@ internal sealed partial class GlPreviewControl
 
         if (start.Type == SceneMaskType.Triangle)
         {
-            // Preserve the fixed opposite edge while preventing a triangle from collapsing
-            // into an effectively infinite line. 32:1 is still deliberately very flat.
+            
+            
             const double maxAspect = 32.0;
             double width = right - left;
             double height = bottom - top;

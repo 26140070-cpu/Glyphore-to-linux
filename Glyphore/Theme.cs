@@ -2,8 +2,8 @@ namespace Glyphore;
 
 internal static class Theme
 {
-    // Glyphoré 6 palette derived from the supplied Vicoré/Glyphoré identity:
-    // near-black blue-charcoal surfaces with warm copper / amber highlights.
+    
+    
     public static readonly Color Bg = Color.FromArgb(11, 14, 20);
     public static readonly Color Panel = Color.FromArgb(15, 19, 26);
     public static readonly Color PanelRaised = Color.FromArgb(20, 25, 34);

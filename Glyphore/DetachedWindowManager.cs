@@ -1,9 +1,9 @@
 ﻿namespace Glyphore;
 
-/// <summary>
-/// Tracks modeless, ownerless top-level windows that belong to the Glyphoré process.
-/// Owner is deliberately never assigned: taskbar, Alt+Tab and minimize state stay independent.
-/// </summary>
+
+
+
+
 internal sealed class DetachedWindowManager : IDisposable
 {
     private readonly Form _mainWindow;
@@ -49,8 +49,8 @@ internal sealed class DetachedWindowManager : IDisposable
             return;
         }
 
-        // Show() without an owner is intentional. Setting Owner or calling Show(mainWindow)
-        // would couple minimize/taskbar behavior and would no longer be truly detached.
+        
+        
         window.ShowInTaskbar = true;
         if (centerOnMain) PositionNearMain(window);
 

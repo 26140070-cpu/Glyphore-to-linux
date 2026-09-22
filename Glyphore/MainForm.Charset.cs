@@ -17,7 +17,7 @@ internal sealed partial class MainForm
         foreach (var layer in _scene.Layers)
             layer.SetCharset(_settings.CharsetName, charset);
 
-        // Keep the legacy/default scene fields useful for older readers and migrations.
+        
         _scene.CharsetName = _settings.CharsetName;
         _scene.Charset = charset;
     }
